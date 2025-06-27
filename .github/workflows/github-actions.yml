@@ -1,0 +1,57 @@
+name: Build and Deploy API Server
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Grant execute permission
+        run: chmod +x gradlew
+
+      - name: Build JAR
+        run: ./gradlew clean build -x test
+
+      - name: Build Docker image
+        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/danji-api:latest .
+
+      - name: Login to Docker Hub
+        run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+
+      - name: Push image
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/danji-api:latest
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.GCP_HOST }}
+          username: ${{ secrets.GCP_USER }}
+          key: ${{ secrets.GCP_SSH_KEY }}
+          port: 22
+          script: |
+            mkdir -p /home/ubuntu/danji-compose
+            cd /home/ubuntu/danji-compose
+
+            echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+
+            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/danji-api:latest
+
+            docker-compose stop api
+            docker-compose rm -f api
+            docker-compose up -d api
