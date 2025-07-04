@@ -2,8 +2,8 @@ package danji.danjiapi.domain.auth.service;
 
 import danji.danjiapi.domain.user.entity.User;
 import danji.danjiapi.domain.user.repository.UserRepository;
+import danji.danjiapi.global.auth.CustomAuthException;
 import danji.danjiapi.global.auth.CustomUserDetails;
-import danji.danjiapi.global.exception.CustomException;
 import danji.danjiapi.global.exception.ErrorMessage;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -22,8 +22,8 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) {
         return userRepository.findByEmail(email)
                 .map(this::createUserDetails)
-                .orElseThrow(() -> new CustomException(ErrorMessage.AUTH_USER_NOT_FOUND));
-    }
+                .orElseThrow(() -> new CustomAuthException(ErrorMessage.AUTH_USER_NOT_FOUND));
+    };
 
     private UserDetails createUserDetails(User user) {
         List<GrantedAuthority> authorities =
