@@ -33,7 +33,9 @@ public class JwtTokenProvider {
     }
 
     public JwtToken generateToken(Authentication authentication) {
-        CustomUserDetails principal = (CustomUserDetails) authentication.getPrincipal();
+        if (!(authentication.getPrincipal() instanceof CustomUserDetails principal)) {
+            throw new CustomException(ErrorMessage.AUTH_INVALID);
+        }
 
         String role = authentication.getAuthorities().stream()
                 .findFirst()
