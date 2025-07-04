@@ -41,21 +41,22 @@ public class JwtTokenProvider {
                 .orElseThrow(() -> new CustomException(ErrorMessage.AUTH_FORBIDDEN));
 
         Instant now = Instant.now();
-        Instant expiry = now.plusSeconds(86400);
+        Instant accessTokenExpiry = now.plusSeconds(86400);
+        Instant refreshTokenExpiry = now.plusSeconds(604800);
 
         String accessToken = Jwts.builder()
                 .subject(authentication.getName())
                 .claim("userId", principal.getUserId())
                 .claim("role", role)
                 .issuedAt(Date.from(now))
-                .expiration(Date.from(expiry))
+                .expiration(Date.from(accessTokenExpiry))
                 .signWith(key)
                 .compact();
 
         String refreshToken = Jwts.builder()
                 .subject(authentication.getName())
                 .issuedAt(Date.from(now))
-                .expiration(Date.from(expiry))
+                .expiration(Date.from(refreshTokenExpiry))
                 .signWith(key)
                 .compact();
 
