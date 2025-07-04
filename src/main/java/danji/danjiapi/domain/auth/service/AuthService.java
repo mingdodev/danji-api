@@ -3,7 +3,7 @@ package danji.danjiapi.domain.auth.service;
 import danji.danjiapi.domain.auth.dto.request.AuthLoginRequest;
 import danji.danjiapi.domain.auth.dto.response.AuthLoginResponse;
 import danji.danjiapi.domain.auth.dto.JwtToken;
-import danji.danjiapi.global.auth.JwtTokenProvider;
+import danji.danjiapi.global.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;

@@ -1,9 +1,9 @@
 package danji.danjiapi.global.config;
 
-import danji.danjiapi.global.auth.CustomAuthenticationEntryPoint;
-import danji.danjiapi.global.auth.JwtTokenProvider;
-import danji.danjiapi.global.auth.JwtAuthenticationFilter;
-import danji.danjiapi.global.exception.CustomAccessDeniedHandler;
+import danji.danjiapi.global.security.exception.CustomAuthenticationEntryPoint;
+import danji.danjiapi.global.security.JwtTokenProvider;
+import danji.danjiapi.global.security.JwtAuthenticationFilter;
+import danji.danjiapi.global.security.exception.CustomAccessDeniedHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

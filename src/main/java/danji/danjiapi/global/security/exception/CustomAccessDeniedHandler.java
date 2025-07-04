@@ -1,6 +1,7 @@
-package danji.danjiapi.global.exception;
+package danji.danjiapi.global.security.exception;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import danji.danjiapi.global.exception.ErrorMessage;
 import danji.danjiapi.global.response.ErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

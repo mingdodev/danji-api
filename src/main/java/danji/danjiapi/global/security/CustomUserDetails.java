@@ -1,4 +1,4 @@
-package danji.danjiapi.global.auth;
+package danji.danjiapi.global.security;
 
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;

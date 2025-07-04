@@ -1,4 +1,4 @@
-package danji.danjiapi.global.auth;
+package danji.danjiapi.global.security.exception;
 
 import danji.danjiapi.global.exception.ErrorMessage;
 import lombok.Getter;

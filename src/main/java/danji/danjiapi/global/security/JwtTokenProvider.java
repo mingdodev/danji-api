@@ -1,4 +1,4 @@
-package danji.danjiapi.global.auth;
+package danji.danjiapi.global.security;
 
 import danji.danjiapi.domain.auth.dto.JwtToken;
 import danji.danjiapi.global.exception.CustomException;

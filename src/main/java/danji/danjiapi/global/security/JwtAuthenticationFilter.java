@@ -1,4 +1,4 @@
-package danji.danjiapi.global.auth;
+package danji.danjiapi.global.security;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

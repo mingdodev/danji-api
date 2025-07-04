@@ -1,4 +1,4 @@
-package danji.danjiapi.global.auth;
+package danji.danjiapi.global.security.exception;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import danji.danjiapi.global.exception.ErrorMessage;
