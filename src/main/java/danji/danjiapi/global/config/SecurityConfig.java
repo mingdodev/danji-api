@@ -3,6 +3,7 @@ package danji.danjiapi.global.config;
 import danji.danjiapi.global.auth.CustomAuthenticationEntryPoint;
 import danji.danjiapi.global.auth.JwtTokenProvider;
 import danji.danjiapi.global.auth.JwtAuthenticationFilter;
+import danji.danjiapi.global.exception.CustomAccessDeniedHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,6 +22,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
     private final JwtTokenProvider jwtTokenProvider;
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
@@ -41,6 +43,10 @@ public class SecurityConfig {
                 )
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
                         UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling(e -> {
+                    e.authenticationEntryPoint(customAuthenticationEntryPoint);
+                    e.accessDeniedHandler(customAccessDeniedHandler);
+                })
                 .build();
     }
 
