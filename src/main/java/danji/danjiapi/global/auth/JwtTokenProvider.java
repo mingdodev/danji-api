@@ -72,7 +72,7 @@ public class JwtTokenProvider {
             throw new CustomException(ErrorMessage.AUTH_FORBIDDEN);
         }
 
-        Long userId = claims.get("userId", Integer.class).longValue();
+        Long userId = claims.get("userId", Number.class).longValue();
         String role = claims.get("role", String.class);
         SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role);
         List<GrantedAuthority> authorities = List.of(authority);
