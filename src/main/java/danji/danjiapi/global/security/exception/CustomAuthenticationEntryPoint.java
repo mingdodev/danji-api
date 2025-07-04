@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
+    private static final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
     public void commence(HttpServletRequest request,
@@ -35,6 +36,6 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
         response.setCharacterEncoding("UTF-8");
 
         ErrorResponse errorResponse = ErrorResponse.of(errorMessage);
-        response.getWriter().write(new ObjectMapper().writeValueAsString(errorResponse));
+        response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
     }
 }
