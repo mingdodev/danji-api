@@ -1,5 +1,6 @@
 package danji.danjiapi.global.config;
 
+import danji.danjiapi.global.auth.CustomAuthenticationEntryPoint;
 import danji.danjiapi.global.auth.JwtTokenProvider;
 import danji.danjiapi.global.auth.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
@@ -19,16 +20,18 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final JwtTokenProvider jwtTokenProvider;
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+
         return httpSecurity
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                "/api/users/login",
+                                "/api/auth/login",
                                 "/api/users/signup",
                                 "/v3/api-docs/**",
                                 "/swagger-ui/**",
