@@ -71,7 +71,7 @@ public class JwtTokenProvider {
     public Authentication getAuthentication(String accessToken) {
         Claims claims = parseClaims(accessToken);
 
-        if (claims.get("role") == null) {
+        if (claims.get("role") == null || claims.get("userId") == null) {
             throw new CustomException(ErrorMessage.AUTH_FORBIDDEN);
         }
 
