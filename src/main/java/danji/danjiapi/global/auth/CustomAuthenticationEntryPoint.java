@@ -17,6 +17,16 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
+    /**
+     * Handles authentication failures by sending a structured JSON error response with an appropriate HTTP status code.
+     *
+     * If the authentication exception is caused by a custom authentication exception, a specific error message is returned; otherwise, a generic unauthorized error message is used.
+     *
+     * @param request the HTTP request that resulted in an authentication failure
+     * @param response the HTTP response to be sent to the client
+     * @param authException the exception that triggered the authentication failure
+     * @throws IOException if an input or output error occurs while writing the response
+     */
     @Override
     public void commence(HttpServletRequest request,
                          HttpServletResponse response,

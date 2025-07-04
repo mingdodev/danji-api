@@ -24,6 +24,14 @@ public class SecurityConfig {
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
 
+    /****
+     * Configures the application's security filter chain, including authentication, authorization, session management, and exception handling.
+     *
+     * Defines stateless session management, disables HTTP Basic authentication and CSRF protection, and permits unauthenticated access to login, signup, and API documentation endpoints. All other requests require authentication. Integrates a JWT authentication filter and custom handlers for authentication and access denial.
+     *
+     * @return the configured {@link SecurityFilterChain}
+     * @throws Exception if an error occurs during security configuration
+     */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
 
@@ -50,6 +58,11 @@ public class SecurityConfig {
                 .build();
     }
 
+    /**
+     * Creates and returns a delegating password encoder supporting multiple encoding schemes.
+     *
+     * @return a PasswordEncoder that delegates to different encoders based on a prefix.
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();

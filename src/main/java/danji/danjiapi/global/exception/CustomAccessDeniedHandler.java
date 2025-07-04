@@ -16,6 +16,13 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 
+    /**
+     * Handles access denied exceptions by sending a standardized JSON error response with a forbidden status code.
+     *
+     * Sets the HTTP response status to forbidden, content type to JSON, and writes a serialized error message to the response body when authorization fails.
+     *
+     * @throws IOException if an input or output exception occurs while writing the response
+     */
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response,
                        AccessDeniedException accessDeniedException) throws IOException {

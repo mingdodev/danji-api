@@ -9,6 +9,13 @@ public enum Role {
 
 
 
+    /**
+     * Converts a string to its corresponding {@code Role} enum constant.
+     *
+     * @param value the string representation of the role
+     * @return the matching {@code Role} enum constant
+     * @throws CustomException if the input does not match any {@code Role}
+     */
     public static Role from(String value) {
         try {
             return Role.valueOf(value.toUpperCase());

@@ -18,6 +18,13 @@ import org.springframework.stereotype.Service;
 public class CustomUserDetailsService implements UserDetailsService {
     private final UserRepository userRepository;
 
+    /**
+     * Loads user details for authentication based on the provided email address.
+     *
+     * @param email the email address of the user to be loaded
+     * @return a UserDetails object representing the authenticated user
+     * @throws CustomAuthException if no user with the given email is found
+     */
     @Override
     public UserDetails loadUserByUsername(String email) {
         return userRepository.findByEmail(email)
@@ -25,6 +32,12 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .orElseThrow(() -> new CustomAuthException(ErrorMessage.AUTH_USER_NOT_FOUND));
     };
 
+    /**
+     * Converts a User entity into a CustomUserDetails object containing authentication and authorization information.
+     *
+     * @param user the User entity to convert
+     * @return a CustomUserDetails instance with the user's ID, email, password, and granted authorities
+     */
     private UserDetails createUserDetails(User user) {
         List<GrantedAuthority> authorities =
                 List.of(new SimpleGrantedAuthority(user.getRole().name()));

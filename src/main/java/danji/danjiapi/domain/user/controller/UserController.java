@@ -17,6 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
     private final UserService userService;
 
+    /**
+     * Registers a new user using the provided email and user details.
+     *
+     * @param request the user registration information
+     * @return a standardized API response containing the created user's information
+     */
     @PostMapping("/signup")
     @Operation(summary = "회원 가입", description = "이메일 아이디로 회원 가입을 진행합니다.")
     public ApiResponse<UserCreateResponse> signup(@RequestBody UserCreateRequest request) {

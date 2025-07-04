@@ -45,6 +45,15 @@ public class User {
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
+    /**
+     * Creates a new User instance with the specified email, password, name, and role.
+     *
+     * @param email the user's email address
+     * @param password the user's password
+     * @param name the user's name
+     * @param role the user's role as a string, which will be converted to the Role enum
+     * @return a new User object with the provided attributes
+     */
     public static User create(String email, String password, String name, String role) {
         return User.builder()
                 .email(email)

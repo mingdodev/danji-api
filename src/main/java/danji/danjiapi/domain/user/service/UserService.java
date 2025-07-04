@@ -14,6 +14,14 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
+    /**
+     * Registers a new user with the provided information and returns the created user's details.
+     *
+     * The password is securely encoded before storing. Returns a response containing the user's ID, email, name, and role.
+     *
+     * @param request the user creation request containing email, plaintext password, name, and role
+     * @return a response with the newly created user's ID, email, name, and role
+     */
     public UserCreateResponse signup(UserCreateRequest request) {
         // TO DO: 이메일 중복 체크
         String encodedPassword = passwordEncoder.encode(request.password());

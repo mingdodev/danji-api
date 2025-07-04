@@ -17,6 +17,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
     private final AuthService authService;
 
+    /**
+     * Handles user login requests using email and password credentials.
+     *
+     * Processes a login request and returns a response containing authentication details and user role information.
+     *
+     * @param request the login credentials and related information
+     * @return an API response containing authentication results and user role data
+     */
     @PostMapping("/login")
     @Operation(summary = "로그인", description = "이메일 아이디와 비밀번호로 로그인을 진행합니다. 로그인의 결과를 통해 회원의 역할을 구분합니다.")
     public ApiResponse<AuthLoginResponse> login(@RequestBody AuthLoginRequest request) {

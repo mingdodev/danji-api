@@ -27,11 +27,25 @@ import org.springframework.stereotype.Component;
 public class JwtTokenProvider {
     private final SecretKey key;
 
+    /**
+     * Constructs a JwtTokenProvider by decoding the provided Base64-encoded secret key and initializing the cryptographic key used for signing JWT tokens.
+     *
+     * @param secretKey the Base64-encoded secret key from application configuration
+     */
     public JwtTokenProvider(@Value("${jwt.secret}") String secretKey) {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
+    /**
+     * Generates a JWT access token and refresh token for the authenticated user.
+     *
+     * The access token includes the user's ID and role as claims and both tokens are valid for 24 hours.
+     *
+     * @param authentication the authentication object containing user details and authorities
+     * @return a {@link JwtToken} containing the generated access and refresh tokens
+     * @throws CustomException if the user's role cannot be determined from the authentication object
+     */
     public JwtToken generateToken(Authentication authentication) {
         CustomUserDetails principal = (CustomUserDetails) authentication.getPrincipal();
 
@@ -65,6 +79,15 @@ public class JwtTokenProvider {
                 .build();
     }
 
+    /**
+     * Extracts authentication details from a JWT access token.
+     *
+     * Parses the provided JWT access token to retrieve user ID and role claims, constructs a {@link CustomUserDetails} principal, and returns a {@link UsernamePasswordAuthenticationToken} containing the principal and authorities.
+     *
+     * @param accessToken the JWT access token to extract authentication from
+     * @return an {@link Authentication} object representing the authenticated user
+     * @throws CustomException if the token does not contain a role claim
+     */
     public Authentication getAuthentication(String accessToken) {
         Claims claims = parseClaims(accessToken);
 
@@ -83,6 +106,12 @@ public class JwtTokenProvider {
         return new UsernamePasswordAuthenticationToken(principal, "", authorities);
     }
 
+    /**
+     * Validates the given JWT token for integrity, expiration, and supported format.
+     *
+     * @param token the JWT token to validate
+     * @return {@code true} if the token is valid; {@code false} if it is invalid, expired, unsupported, or has empty claims
+     */
     public boolean validateToken(String token) {
         try {
             Jwts.parser()
@@ -102,6 +131,14 @@ public class JwtTokenProvider {
         return false;
     }
 
+    /**
+     * Parses and returns the claims from the given JWT token.
+     * <p>
+     * If the token is expired, returns the claims from the expired token.
+     *
+     * @param token the JWT token to parse
+     * @return the claims contained in the token
+     */
     private Claims parseClaims(String token) {
         try {
             return Jwts.parser()
