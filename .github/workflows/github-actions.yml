@@ -45,8 +45,10 @@ jobs:
           key: ${{ secrets.GCP_SSH_KEY }}
           port: 22
           script: |
-            mkdir -p /home/ubuntu/danji-compose
-            cd /home/ubuntu/danji-compose
+            mkdir -p ${{ secrets.COMPOSE_URL}}
+            cd ${{ secrets.COMPOSE_URL}}
+            
+            echo "${{ secrets.ENV_FILE }}" | base64 -d > .env
 
             echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
 
