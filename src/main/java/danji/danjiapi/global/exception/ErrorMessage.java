@@ -22,6 +22,9 @@ public enum ErrorMessage {
     CONFLICT("CONFLICT", "리소스 충돌이 발생하였습니다.", HttpStatus.CONFLICT),
     INTERNAL_ERROR("INTERNAL_ERROR", "알 수 없는 서버 내부 오류가 발생하였습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
 
+    //user
+    USER_DUPLICATED_EMAIL("USER_DUPLICATED_EMAIL", "이미 존재하는 이메일입니다.", HttpStatus.CONFLICT),
+
     // auth
     AUTH_INVALID("AUTH_INVALID", "잘못된 토큰입니다.", HttpStatus.BAD_REQUEST),
     AUTH_FORBIDDEN("AUTH_FORBIDDEN", "권한 정보가 없는 토큰입니다.", HttpStatus.FORBIDDEN),
