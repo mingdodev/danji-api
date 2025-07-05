@@ -16,10 +16,10 @@ public class MarketService {
     public List<MarketSummary> searchMarkets(MarketSearchCondition searchCondition) {
         List<Market> markets;
 
-        if (searchCondition == null) {
+        if (searchCondition == null || searchCondition.keyword() == null || searchCondition.keyword().trim().isEmpty()) {
             markets = marketRepository.findAll();
         } else {
-            markets = marketRepository.findByNameOrAddressOrProductsContaining(searchCondition.keyword());
+            markets = marketRepository.findByNameOrAddressOrProductsContaining(searchCondition.keyword().trim());
         }
 
         return markets.stream()

@@ -12,8 +12,7 @@ public interface MarketRepository extends JpaRepository<Market, Long> {
         SELECT DISTINCT m FROM Market m
         LEFT JOIN m.products p
         WHERE
-            (:keyword IS NULL OR :keyword = ''
-            OR m.name LIKE %:keyword%
+            (m.name LIKE %:keyword%
             OR m.address LIKE %:keyword%
             OR p.name LIKE %:keyword%)
     """)
