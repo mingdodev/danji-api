@@ -33,6 +33,7 @@ public enum ErrorMessage {
 
     // market
     MARKET_NOT_FOUND("MARKET_NOT_FOUND", "요청한 가게를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
+    MARKET_FORBIDDEN("MARKET_FORBIDDEN", "해당 가게에 대한 접근 권한이 없습니다.", HttpStatus.FORBIDDEN),
 
     // product
     PRODUCT_NOT_FOUND("PRODUCT_NOT_FOUND", "요청한 상품을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),

@@ -9,6 +9,8 @@ import danji.danjiapi.domain.product.entity.Product;
 import danji.danjiapi.domain.product.repository.ProductRepository;
 import danji.danjiapi.global.exception.CustomException;
 import danji.danjiapi.global.exception.ErrorMessage;
+import danji.danjiapi.global.util.resolver.CurrentUserResolver;
+import danji.danjiapi.global.util.validator.AccessValidator;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -34,9 +36,11 @@ public class MarketService {
     }
 
     public List<ProductDetail> getProducts(Long marketId) {
-        if (!marketRepository.existsById(marketId)) {
-            throw new CustomException(ErrorMessage.MARKET_NOT_FOUND);
-        }
+        Market market = marketRepository.findById(marketId)
+                .orElseThrow(() -> new CustomException(ErrorMessage.MARKET_NOT_FOUND));
+
+        AccessValidator.validateMarketAccess(market, CurrentUserResolver.getCurrentUserId());
+
         List<Product> products = productRepository.findByMarketId(marketId);
 
         return products.stream()
