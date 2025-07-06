@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,10 +45,11 @@ public class OrderController {
         return ApiResponse.success(orderService.create(request));
     }
 
-    @PutMapping("/orders")
+    @PatchMapping("/orders/{orderId}")
     @Operation(summary = "사장님의 주문 수정", description = "사장님이 주문(주문 항목의 가격, 수량)을 수정합니다.")
-    public ApiResponse<Void> update(@Valid @RequestBody OrderUpdateRequest request) {
-        orderService.update(request);
+    public ApiResponse<Void> update(@PathVariable Long orderId,
+                                    @Valid @RequestBody OrderUpdateRequest request) {
+        orderService.update(orderId, request);
         return ApiResponse.success(null, "주문 수정이 완료되었습니다.");
     }
 

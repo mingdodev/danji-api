@@ -115,7 +115,7 @@ public class OrderService {
     }
 
     @Transactional
-    public void update(OrderUpdateRequest request) {
+    public void update(Long orderId, OrderUpdateRequest request) {
         Long currentUserId = currentUserResolver.getCurrentUserId();
         String currentUserRole = currentUserResolver.getCurrentUserRole();
 
@@ -123,7 +123,7 @@ public class OrderService {
             throw new CustomException(ErrorMessage.ORDER_FORBIDDEN);
         }
 
-        Order order = orderRepository.findById(request.orderId())
+        Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new CustomException(ErrorMessage.ORDER_NOT_FOUND));
 
         AccessValidator.validateOrderAccess(order, currentUserId);
