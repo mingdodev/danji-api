@@ -1,6 +1,5 @@
 package danji.danjiapi.domain.order.dto.request;
 
-import danji.danjiapi.domain.market.dto.request.OrderItemInfo;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;

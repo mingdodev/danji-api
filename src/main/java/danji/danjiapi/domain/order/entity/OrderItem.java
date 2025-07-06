@@ -47,4 +47,9 @@ public class OrderItem {
                 .quantity(quantity)
                 .build();
     }
+
+    public void update(BigDecimal price, Integer quantity) {
+        this.price = price;
+        this.quantity = quantity;
+    }
 }

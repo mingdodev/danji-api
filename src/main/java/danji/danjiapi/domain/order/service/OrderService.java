@@ -1,5 +1,6 @@
 package danji.danjiapi.domain.order.service;
 
+import danji.danjiapi.domain.order.dto.request.OrderItemDetail;
 import danji.danjiapi.domain.order.dto.request.OrderItemInfo;
 import danji.danjiapi.domain.market.entity.Market;
 import danji.danjiapi.domain.market.repository.MarketRepository;
@@ -18,6 +19,7 @@ import danji.danjiapi.domain.user.repository.UserRepository;
 import danji.danjiapi.global.exception.CustomException;
 import danji.danjiapi.global.exception.ErrorMessage;
 import danji.danjiapi.global.util.resolver.CurrentUserResolver;
+import danji.danjiapi.global.util.validator.AccessValidator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -110,7 +112,30 @@ public class OrderService {
         return OrderCreateResponse.from(orderRepository.save(order));
     }
 
+    @Transactional
     public void update(OrderUpdateRequest request) {
+        Long currentUserId = currentUserResolver.getCurrentUserId();
+        String currentUserRole = currentUserResolver.getCurrentUserRole();
 
+        if (!Role.MERCHANT.name().equals(currentUserRole)) {
+            throw new CustomException(ErrorMessage.ORDER_FORBIDDEN);
+        }
+
+        Order order = orderRepository.findById(request.orderId())
+                .orElseThrow(() -> new CustomException(ErrorMessage.ORDER_NOT_FOUND));
+
+        AccessValidator.validateOrderAccess(order, currentUserId);
+
+        Map<Long, OrderItem> itemMap = order.getOrderItems().stream()
+                .collect(Collectors.toMap(OrderItem::getId, Function.identity()));
+
+        for (OrderItemDetail detail : request.orderItems()) {
+            OrderItem item = itemMap.get(detail.id());
+            if (item == null) {
+                throw new CustomException(ErrorMessage.ORDER_ITEM_NOT_FOUND);
+            }
+
+            item.update(detail.price(), detail.quantity());
+        }
     }
 }
