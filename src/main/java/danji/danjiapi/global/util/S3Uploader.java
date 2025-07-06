@@ -33,8 +33,7 @@ public class S3Uploader {
             metadata.setContentType(file.getContentType());
             metadata.setContentLength(file.getSize());
 
-            amazonS3.putObject(new PutObjectRequest(bucket, filename, file.getInputStream(), metadata)
-                    .withCannedAcl(CannedAccessControlList.PublicRead));
+            amazonS3.putObject(new PutObjectRequest(bucket, filename, file.getInputStream(), metadata));
 
             return "https://" + cloudFrontDomain + "/" + filename;
 
