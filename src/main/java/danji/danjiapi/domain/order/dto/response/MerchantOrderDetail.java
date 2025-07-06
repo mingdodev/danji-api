@@ -13,7 +13,7 @@ public record MerchantOrderDetail(
         String deliveryAddress,
         CustomerSummary customer,
         List<OrderItemDetail> orderItems,
-        BigDecimal totalPrices
+        BigDecimal totalPrice
 ) {
     public static MerchantOrderDetail from(Order order, User customer) {
         List<OrderItemDetail> orderItemDetails = order.getOrderItems().stream()
