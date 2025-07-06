@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,7 +22,7 @@ public class ProductController {
 
     @PostMapping("")
     @Operation(summary = "상품 추가", description = "사장님이 가게에 새로운 상품을 추가합니다.")
-    public ApiResponse<ProductCreateResponse> add(@Valid ProductCreateRequest request) {
+    public ApiResponse<ProductCreateResponse> add(@Valid @RequestBody ProductCreateRequest request) {
         return ApiResponse.success(productService.add(request));
     }
 
