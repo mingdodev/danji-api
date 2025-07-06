@@ -11,26 +11,18 @@ import org.springframework.stereotype.Component;
 @Component
 public class CurrentUserResolver {
 
-    public static String getCurrentUserRole() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        if (authentication == null || !authentication.isAuthenticated()) {
-            throw new CustomException(ErrorMessage.UNAUTHORIZED);
-        }
-
-        Object principal = authentication.getPrincipal();
-
-        if (principal instanceof CustomUserDetails userDetails) {
-            return userDetails.getAuthorities().stream()
-                    .findFirst()
-                    .map(GrantedAuthority::getAuthority)
-                    .orElseThrow(() -> new CustomException(ErrorMessage.UNAUTHORIZED));
-        }
-
-        throw new CustomException(ErrorMessage.UNAUTHORIZED);
+    public Long getCurrentUserId() {
+        return getPrincipal().getUserId();
     }
 
-    public static Long getCurrentUserId() {
+    public String getCurrentUserRole() {
+        return getPrincipal().getAuthorities().stream()
+                .findFirst()
+                .map(GrantedAuthority::getAuthority)
+                .orElseThrow(() -> new CustomException(ErrorMessage.UNAUTHORIZED));
+    }
+
+    private CustomUserDetails getPrincipal() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication == null || !authentication.isAuthenticated()) {
@@ -40,7 +32,7 @@ public class CurrentUserResolver {
         Object principal = authentication.getPrincipal();
 
         if (principal instanceof CustomUserDetails userDetails) {
-            return userDetails.getUserId();
+            return userDetails;
         }
 
         throw new CustomException(ErrorMessage.UNAUTHORIZED);

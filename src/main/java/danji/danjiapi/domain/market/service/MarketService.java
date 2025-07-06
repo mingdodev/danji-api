@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 public class MarketService {
     private final MarketRepository marketRepository;
     private final ProductRepository productRepository;
+    private final CurrentUserResolver currentUserResolver;
 
     public List<MarketSummary> searchMarkets(MarketSearchCondition searchCondition) {
         List<Market> markets;
@@ -39,8 +40,8 @@ public class MarketService {
         Market market = marketRepository.findById(marketId)
                 .orElseThrow(() -> new CustomException(ErrorMessage.MARKET_NOT_FOUND));
 
-        String role = CurrentUserResolver.getCurrentUserRole();
-        Long userId = CurrentUserResolver.getCurrentUserId();
+        String role = currentUserResolver.getCurrentUserRole();
+        Long userId = currentUserResolver.getCurrentUserId();
 
         if (role.equals("MERCHANT")) {
             AccessValidator.validateMarketAccess(market, userId);

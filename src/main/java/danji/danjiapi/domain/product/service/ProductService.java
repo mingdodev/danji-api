@@ -18,9 +18,10 @@ import org.springframework.stereotype.Service;
 public class ProductService {
     private final ProductRepository productRepository;
     private final MarketRepository marketRepository;
+    private final CurrentUserResolver currentUserResolver;
 
     public ProductCreateResponse add(ProductCreateRequest request) {
-        Long currentUserId = CurrentUserResolver.getCurrentUserId();
+        Long currentUserId = currentUserResolver.getCurrentUserId();
 
         Market market = marketRepository.findByUserId(currentUserId)
                 .orElseThrow(() -> new CustomException(ErrorMessage.MARKET_NOT_FOUND));
@@ -34,7 +35,7 @@ public class ProductService {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new CustomException(ErrorMessage.PRODUCT_NOT_FOUND));
 
-        AccessValidator.validateProductAccess(product, CurrentUserResolver.getCurrentUserId());
+        AccessValidator.validateProductAccess(product, currentUserResolver.getCurrentUserId());
 
         productRepository.deleteById(productId);
 
