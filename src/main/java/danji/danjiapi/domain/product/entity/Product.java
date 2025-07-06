@@ -53,4 +53,12 @@ public class Product {
     @JoinColumn(name = "market_id", nullable = false)
     private Market market;
 
+    public static Product create(String name, BigDecimal price, Integer minQuantity, Integer maxQuantity) {
+        return Product.builder()
+                .name(name)
+                .price(price)
+                .minQuantity(minQuantity)
+                .maxQuantity(maxQuantity)
+                .build();
+    }
 }
