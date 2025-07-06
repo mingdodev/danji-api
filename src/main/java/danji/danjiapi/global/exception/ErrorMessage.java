@@ -37,7 +37,10 @@ public enum ErrorMessage {
 
     // product
     PRODUCT_NOT_FOUND("PRODUCT_NOT_FOUND", "요청한 상품을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
-    PRODUCT_FORBIDDEN("PRODUCT_FORBIDDEN", "해당 상품에 대한 접근 권한이 없습니다.", HttpStatus.FORBIDDEN)
+    PRODUCT_FORBIDDEN("PRODUCT_FORBIDDEN", "해당 상품에 대한 접근 권한이 없습니다.", HttpStatus.FORBIDDEN),
+
+    // order
+    ORDER_FORBIDDEN("ORDER_FORBIDDEN", "해당 주문 목록에 대한 접근 권한이 없습니다.", HttpStatus.FORBIDDEN),
 ;
     private final String code;
     private final String message;
