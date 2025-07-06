@@ -40,7 +40,7 @@ public class UserService {
         String encodedPassword = passwordEncoder.encode(request.password());
 
         String imageUrl = (image != null && !image.isEmpty())
-                ? s3Uploader.upload(image, "market")
+                ? s3Uploader.upload(image, "market", request.email())
                 : null;
 
         User user = userRepository.save(User.create(request.email(), encodedPassword, request.name(), "MERCHANT"));

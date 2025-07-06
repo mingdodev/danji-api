@@ -1,13 +1,12 @@
 package danji.danjiapi.global.util;
 
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import danji.danjiapi.global.exception.CustomException;
 import danji.danjiapi.global.exception.ErrorMessage;
 import java.io.IOException;
-import java.util.UUID;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -25,8 +24,8 @@ public class S3Uploader {
     @Value("${aws.cloudfront.domain}")
     private String cloudFrontDomain;
 
-    public String upload(MultipartFile file, String dirName) {
-        String filename = dirName + "/" + UUID.randomUUID() + "/" + file.getOriginalFilename();
+    public String upload(MultipartFile file, String dirName, String userEmail) {
+        String filename = getFilenameFromEmail(file, dirName, userEmail);
 
         try {
             ObjectMetadata metadata = new ObjectMetadata();
@@ -35,10 +34,22 @@ public class S3Uploader {
 
             amazonS3.putObject(new PutObjectRequest(bucket, filename, file.getInputStream(), metadata));
 
-            return "https://" + cloudFrontDomain + "/" + filename;
+            return cloudFrontDomain + "/" + filename;
 
         } catch (IOException e) {
             throw new CustomException(ErrorMessage.USER_IMAGE_UPLOAD_FAILED);
         }
+    }
+
+    private static String getFilenameFromEmail(MultipartFile file, String dirName, String userEmail) {
+        String emailPrefix = userEmail.substring(0, userEmail.indexOf('@'));
+
+        String extension = Optional.ofNullable(file.getOriginalFilename())
+                .filter(name -> name.contains("."))
+                .map(name -> name.substring(file.getOriginalFilename().lastIndexOf(".")))
+                .orElse("");
+
+        String filename = String.format("%s/%s%s", dirName, emailPrefix, extension);
+        return filename;
     }
 }
