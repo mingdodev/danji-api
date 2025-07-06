@@ -55,6 +55,7 @@ public class Order {
     private User merchant;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @Builder.Default
     private List<OrderItem> orderItems = new ArrayList<>();
 
     public static Order create(OrderStatus status, LocalDateTime date, String address, User customer, User merchant) {

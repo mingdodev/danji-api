@@ -52,6 +52,7 @@ public class Market {
     private User user;
 
     @OneToMany(mappedBy = "market", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<Product> products = new ArrayList<>();
 
     public static Market create(String name, String address, String imageUrl, User user) {
