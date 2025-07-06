@@ -42,14 +42,15 @@ public class S3Uploader {
     }
 
     private static String getFilenameFromEmail(MultipartFile file, String dirName, String userEmail) {
-        String emailPrefix = userEmail.substring(0, userEmail.indexOf('@'));
+        String emailPrefix = userEmail.substring(0, userEmail.indexOf('@'))
+                .replaceAll("[^a-zA-Z0-9]", "_");
+        String timestamp = String.valueOf(System.currentTimeMillis());
 
         String extension = Optional.ofNullable(file.getOriginalFilename())
                 .filter(name -> name.contains("."))
                 .map(name -> name.substring(file.getOriginalFilename().lastIndexOf(".")))
                 .orElse("");
 
-        String filename = String.format("%s/%s%s", dirName, emailPrefix, extension);
-        return filename;
+        return String.format("%s/%s_%s%s", dirName, emailPrefix, timestamp, extension);
     }
 }
