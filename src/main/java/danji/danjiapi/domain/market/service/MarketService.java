@@ -39,7 +39,12 @@ public class MarketService {
         Market market = marketRepository.findById(marketId)
                 .orElseThrow(() -> new CustomException(ErrorMessage.MARKET_NOT_FOUND));
 
-        AccessValidator.validateMarketAccess(market, CurrentUserResolver.getCurrentUserId());
+        String role = CurrentUserResolver.getCurrentUserRole();
+        Long userId = CurrentUserResolver.getCurrentUserId();
+
+        if (role.equals("MERCHANT")) {
+            AccessValidator.validateMarketAccess(market, userId);
+        }
 
         List<Product> products = productRepository.findByMarketId(marketId);
 
