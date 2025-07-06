@@ -1,7 +1,7 @@
 package danji.danjiapi.domain.market.service;
 
 import danji.danjiapi.domain.market.dto.request.MarketSearchCondition;
-import danji.danjiapi.domain.market.dto.response.MarketSummary;
+import danji.danjiapi.domain.market.dto.response.MarketDetail;
 import danji.danjiapi.domain.market.dto.response.ProductDetail;
 import danji.danjiapi.domain.market.entity.Market;
 import danji.danjiapi.domain.market.repository.MarketRepository;
@@ -22,7 +22,7 @@ public class MarketService {
     private final ProductRepository productRepository;
     private final CurrentUserResolver currentUserResolver;
 
-    public List<MarketSummary> searchMarkets(MarketSearchCondition searchCondition) {
+    public List<MarketDetail> searchMarkets(MarketSearchCondition searchCondition) {
         List<Market> markets;
 
         if (searchCondition == null || searchCondition.keyword() == null || searchCondition.keyword().trim().isEmpty()) {
@@ -32,7 +32,7 @@ public class MarketService {
         }
 
         return markets.stream()
-                .map(MarketSummary::from)
+                .map(MarketDetail::from)
                 .toList();
     }
 

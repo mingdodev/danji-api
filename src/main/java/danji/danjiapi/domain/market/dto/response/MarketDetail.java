@@ -2,14 +2,14 @@ package danji.danjiapi.domain.market.dto.response;
 
 import danji.danjiapi.domain.market.entity.Market;
 
-public record MarketSummary(
+public record MarketDetail(
         Long id,
         String name,
         String address,
         String imageUrl
 ) {
-    public static MarketSummary from(Market market) {
-        return new MarketSummary(
+    public static MarketDetail from(Market market) {
+        return new MarketDetail(
                 market.getId(),
                 market.getName(),
                 market.getAddress(),
