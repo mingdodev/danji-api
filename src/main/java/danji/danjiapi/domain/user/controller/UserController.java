@@ -5,6 +5,7 @@ import danji.danjiapi.domain.user.dto.request.UserCreateMerchantRequest;
 import danji.danjiapi.domain.user.dto.response.UserCreateMerchantResponse;
 import danji.danjiapi.domain.user.dto.response.UserCreateCustomerResponse;
 import danji.danjiapi.domain.user.service.UserService;
+import danji.danjiapi.global.annotation.MultipartJsonRequest;
 import danji.danjiapi.global.response.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -32,6 +33,7 @@ public class UserController {
     }
 
     @PostMapping(value = "/signup/merchant", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @MultipartJsonRequest
     @Operation(summary = "사장님 회원 가입", description = "사장님의 회원 가입을 진행합니다. 회원 가입과 가게 생성이 하나의 프로세스로 진행됩니다.",
             security = @SecurityRequirement(name = ""))
     public ApiResponse<UserCreateMerchantResponse> signupMerchant(@Valid @RequestPart("request") UserCreateMerchantRequest request,
