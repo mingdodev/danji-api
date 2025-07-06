@@ -21,7 +21,7 @@ public class MarketController {
     private final MarketService marketService;
 
     @GetMapping("")
-    @Operation(summary = "가게 목록 조회 및 검색", description = "회원이 모든 가게들의 목록을 조회하고, 키워드로 원하는 가게를 검색합니다.")
+    @Operation(summary = "가게 목록 조회 및 검색", description = "고객이 모든 가게들의 목록을 조회하고, 키워드로 원하는 가게를 검색합니다.")
     public ApiResponse<List<MarketSummary>> getMarkets(@ModelAttribute MarketSearchCondition searchCondition) {
         return ApiResponse.success(marketService.searchMarkets(searchCondition));
     }
