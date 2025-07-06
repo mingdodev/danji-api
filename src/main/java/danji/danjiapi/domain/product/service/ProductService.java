@@ -1,5 +1,7 @@
 package danji.danjiapi.domain.product.service;
 
+import danji.danjiapi.domain.market.entity.Market;
+import danji.danjiapi.domain.market.repository.MarketRepository;
 import danji.danjiapi.domain.product.dto.request.ProductCreateRequest;
 import danji.danjiapi.domain.product.dto.response.ProductCreateResponse;
 import danji.danjiapi.domain.product.entity.Product;
@@ -15,9 +17,15 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ProductService {
     private final ProductRepository productRepository;
+    private final MarketRepository marketRepository;
 
     public ProductCreateResponse add(ProductCreateRequest request) {
-        Product product = productRepository.save(Product.create(request.name(), request.price(), request.minQuantity(), request.maxQuantity()));
+        Long currentUserId = CurrentUserResolver.getCurrentUserId();
+
+        Market market = marketRepository.findByUserId(currentUserId)
+                .orElseThrow(() -> new CustomException(ErrorMessage.MARKET_NOT_FOUND));
+
+        Product product = productRepository.save(Product.create(request.name(), request.price(), request.minQuantity(), request.maxQuantity(), market));
 
         return ProductCreateResponse.from(product);
     }
