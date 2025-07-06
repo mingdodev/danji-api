@@ -23,6 +23,7 @@ public enum ErrorMessage {
     INTERNAL_ERROR("INTERNAL_ERROR", "알 수 없는 서버 내부 오류가 발생하였습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
 
     //user
+    USER_NOT_FOUND("USER_NOT_FOUND", "요청한 사용자를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
     USER_DUPLICATED_EMAIL("USER_DUPLICATED_EMAIL", "이미 존재하는 이메일입니다.", HttpStatus.CONFLICT),
 
     // auth
@@ -37,7 +38,14 @@ public enum ErrorMessage {
 
     // product
     PRODUCT_NOT_FOUND("PRODUCT_NOT_FOUND", "요청한 상품을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
-    PRODUCT_FORBIDDEN("PRODUCT_FORBIDDEN", "해당 상품에 대한 접근 권한이 없습니다.", HttpStatus.FORBIDDEN)
+    PRODUCT_FORBIDDEN("PRODUCT_FORBIDDEN", "해당 상품에 대한 접근 권한이 없습니다.", HttpStatus.FORBIDDEN),
+
+    // order
+    ORDER_NOT_FOUND("ORDER_NOT_FOUND", "요청한 주문을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
+    ORDER_ITEM_NOT_FOUND("ORDER_ITEM_NOT_FOUND", "요청한 주문 항목을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
+    ORDER_FORBIDDEN("ORDER_FORBIDDEN", "해당 주문 목록에 대한 접근 권한이 없습니다.", HttpStatus.FORBIDDEN),
+    ORDER_INVALID_STATUS("ORDER_INVALID_STATUS", "유효하지 않은 상태 값입니다.", HttpStatus.BAD_REQUEST),
+    ORDER_ALREADY_PROCESSED("ORDER_ALREADY_PROCESSED", "해당 주문은 이미 처리 완료되었습니다.", HttpStatus.CONFLICT),
 ;
     private final String code;
     private final String message;
