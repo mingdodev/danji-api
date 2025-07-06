@@ -15,8 +15,7 @@ public record UserCreateMerchantRequest(
         @NotBlank(message = "상호명은 필수입니다.")
         String marketName,
         @NotBlank(message = "주소는 필수입니다.")
-        String marketAddress,
-        String marketImageUrl
+        String marketAddress
 ) {
 
 }

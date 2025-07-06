@@ -16,5 +16,15 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
+aws:
+  region: ap-northeast-2
+  credentials:
+    access-key: ${AWS_ACCESS_KEY}
+    secret-key: ${AWS_SECRET_KEY}
+  s3:
+    bucket: ${AWS_S3_BUCKET}
+  cloudfront:
+    domain: ${AWS_CLOUDFRONT}
+
 jwt:
   secret: ${JWT_SECRET_KEY}
