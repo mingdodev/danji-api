@@ -1,10 +1,12 @@
 package danji.danjiapi.domain.order.controller;
 
 import danji.danjiapi.domain.order.dto.request.OrderCreateRequest;
+import danji.danjiapi.domain.order.dto.request.OrderStatusUpdateRequest;
 import danji.danjiapi.domain.order.dto.request.OrderUpdateRequest;
 import danji.danjiapi.domain.order.dto.response.CustomerOrderDetail;
 import danji.danjiapi.domain.order.dto.response.MerchantOrderDetail;
 import danji.danjiapi.domain.order.dto.response.OrderCreateResponse;
+import danji.danjiapi.domain.order.dto.response.OrderStatusUpdateResponse;
 import danji.danjiapi.domain.order.service.OrderService;
 import danji.danjiapi.global.response.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,6 +14,8 @@ import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -47,5 +51,12 @@ public class OrderController {
     public ApiResponse<Void> update(@Valid @RequestBody OrderUpdateRequest request) {
         orderService.update(request);
         return ApiResponse.success(null, "주문 수정이 완료되었습니다.");
+    }
+
+    @PatchMapping("/orders/{orderId}/status")
+    @Operation(summary = "사장님의 주문 수락 및 거절", description = "사장님이 주문 상태를 수락 또는 거절로 변경합니다.")
+    public ApiResponse<OrderStatusUpdateResponse> updateStatus(@PathVariable Long orderId,
+                                                               @Valid @RequestBody OrderStatusUpdateRequest request) {
+        return ApiResponse.success(orderService.updateStatus(orderId, request));
     }
 }

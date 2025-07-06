@@ -67,6 +67,10 @@ public class Order {
                 .build();
     }
 
+    public void updateStatus(OrderStatus status) {
+        this.status = status;
+    }
+
     public void addOrderItem(OrderItem item) {
         orderItems.add(item);
         item.setOrder(this);
