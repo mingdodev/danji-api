@@ -1,4 +1,4 @@
-package danji.danjiapi.domain.market.dto.request;
+package danji.danjiapi.domain.order.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
