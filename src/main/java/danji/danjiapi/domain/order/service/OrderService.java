@@ -3,9 +3,12 @@ package danji.danjiapi.domain.order.service;
 import danji.danjiapi.domain.market.entity.Market;
 import danji.danjiapi.domain.market.repository.MarketRepository;
 import danji.danjiapi.domain.order.dto.response.CustomerOrderDetail;
+import danji.danjiapi.domain.order.dto.response.MerchantOrderDetail;
 import danji.danjiapi.domain.order.entity.Order;
 import danji.danjiapi.domain.order.repository.OrderRepository;
 import danji.danjiapi.domain.user.entity.Role;
+import danji.danjiapi.domain.user.entity.User;
+import danji.danjiapi.domain.user.repository.UserRepository;
 import danji.danjiapi.global.exception.CustomException;
 import danji.danjiapi.global.exception.ErrorMessage;
 import danji.danjiapi.global.util.resolver.CurrentUserResolver;
@@ -23,6 +26,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final CurrentUserResolver currentUserResolver;
     private final MarketRepository marketRepository;
+    private final UserRepository userRepository;
 
     public List<CustomerOrderDetail> getCustomerOrders() {
         String currentUserRole = currentUserResolver.getCurrentUserRole();
@@ -47,6 +51,33 @@ public class OrderService {
                 .map(o -> {
                     Market market = marketMap.get(o.getMerchant().getId());
                     return CustomerOrderDetail.from(o, market);
+                })
+                .toList();
+    }
+
+    public List<MerchantOrderDetail> getMerchantOrders() {
+        String currentUserRole = currentUserResolver.getCurrentUserRole();
+        Long currentUserId = currentUserResolver.getCurrentUserId();
+
+        List<Order> orders;
+
+        if (currentUserRole.equals(Role.MERCHANT.name())) {
+            orders = orderRepository.findByMerchantIdWithOrderItems(currentUserId);
+        } else {
+            throw new CustomException(ErrorMessage.ORDER_FORBIDDEN);
+        }
+
+        Set<Long> customerIds = orders.stream()
+                .map(order -> order.getCustomer().getId())
+                .collect(Collectors.toSet());
+
+        Map<Long, User> customerMap = userRepository.findAllById(customerIds).stream()
+                .collect(Collectors.toMap(User::getId, Function.identity()));
+
+        return orders.stream()
+                .map(o -> {
+                    User customer = customerMap.get(o.getCustomer().getId());
+                    return MerchantOrderDetail.from(o, customer);
                 })
                 .toList();
     }
