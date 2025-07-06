@@ -31,14 +31,12 @@ public class ProductService {
         return ProductCreateResponse.from(product);
     }
 
-    public Void delete(Long productId) {
+    public void delete(Long productId) {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new CustomException(ErrorMessage.PRODUCT_NOT_FOUND));
 
         AccessValidator.validateProductAccess(product, currentUserResolver.getCurrentUserId());
 
         productRepository.deleteById(productId);
-
-        return null;
     }
 }

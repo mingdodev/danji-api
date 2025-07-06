@@ -29,6 +29,7 @@ public class ProductController {
     @DeleteMapping("/{productId}")
     @Operation(summary = "상품 삭제", description = "사장님이 가게의 특정 상품을 삭제합니다.")
     public ApiResponse<Void> delete(@PathVariable Long productId) {
-        return ApiResponse.success(productService.delete(productId));
+        productService.delete(productId);
+        return ApiResponse.success(null, "상품이 삭제되었습니다.");
     }
 }
