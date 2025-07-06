@@ -1,10 +1,15 @@
 package danji.danjiapi.domain.order.service;
 
+import danji.danjiapi.domain.market.dto.request.OrderItemInfo;
 import danji.danjiapi.domain.market.entity.Market;
 import danji.danjiapi.domain.market.repository.MarketRepository;
+import danji.danjiapi.domain.order.dto.request.OrderCreateRequest;
 import danji.danjiapi.domain.order.dto.response.CustomerOrderDetail;
 import danji.danjiapi.domain.order.dto.response.MerchantOrderDetail;
+import danji.danjiapi.domain.order.dto.response.OrderCreateResponse;
 import danji.danjiapi.domain.order.entity.Order;
+import danji.danjiapi.domain.order.entity.OrderItem;
+import danji.danjiapi.domain.order.entity.OrderStatus;
 import danji.danjiapi.domain.order.repository.OrderRepository;
 import danji.danjiapi.domain.user.entity.Role;
 import danji.danjiapi.domain.user.entity.User;
@@ -19,6 +24,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -80,5 +86,26 @@ public class OrderService {
                     return MerchantOrderDetail.from(o, customer);
                 })
                 .toList();
+    }
+
+    @Transactional
+    public OrderCreateResponse create(OrderCreateRequest request) {
+        Long currentUserId = currentUserResolver.getCurrentUserId();
+        User customer = userRepository.findById(currentUserId)
+                .orElseThrow(() -> new CustomException(ErrorMessage.USER_NOT_FOUND));
+
+        Market market = marketRepository.findById(request.marketId())
+                .orElseThrow(() -> new CustomException(ErrorMessage.MARKET_NOT_FOUND));
+        User merchant = market.getUser();
+
+        Order order = Order.create(OrderStatus.PENDING, request.date(), request.deliveryAddress(), customer, merchant);
+
+        for (OrderItemInfo itemInfo : request.orderItems()) {
+            OrderItem item = OrderItem.create(itemInfo.name(), itemInfo.price(), itemInfo.quantity());
+
+            order.addOrderItem(item);
+        }
+
+        return OrderCreateResponse.from(orderRepository.save(order));
     }
 }

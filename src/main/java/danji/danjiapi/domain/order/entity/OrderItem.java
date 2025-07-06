@@ -29,13 +29,22 @@ public class OrderItem {
     @Column(length = 20, nullable = false)
     private String name;
 
-    private Integer quantity;
-
+    @Column(nullable = false)
     private BigDecimal price;
+
+    @Column(nullable = false)
+    private Integer quantity;
 
     @Setter
     @ManyToOne
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
+    public static OrderItem create(String name, BigDecimal price, Integer quantity) {
+        return OrderItem.builder()
+                .name(name)
+                .price(price)
+                .quantity(quantity)
+                .build();
+    }
 }

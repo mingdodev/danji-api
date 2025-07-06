@@ -57,6 +57,16 @@ public class Order {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<OrderItem> orderItems = new ArrayList<>();
 
+    public static Order create(OrderStatus status, LocalDateTime date, String address, User customer, User merchant) {
+        return Order.builder()
+                .status(status)
+                .date(date)
+                .deliveryAddress(address)
+                .customer(customer)
+                .merchant(merchant)
+                .build();
+    }
+
     public void addOrderItem(OrderItem item) {
         orderItems.add(item);
         item.setOrder(this);
