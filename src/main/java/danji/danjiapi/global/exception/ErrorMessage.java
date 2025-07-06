@@ -32,7 +32,11 @@ public enum ErrorMessage {
     AUTH_INVALID_ROLE("AUTH_INVALID_ROLE", "일치하는 역할 정보가 없습니다.", HttpStatus.BAD_REQUEST),
 
     // market
-    MARKET_INVALID_ID("MARKET_NOT_FOUND", "존재하지 않는 가게 ID 입니다.", HttpStatus.NOT_FOUND)
+    MARKET_NOT_FOUND("MARKET_NOT_FOUND", "존재하지 않는 가게 ID 입니다.", HttpStatus.NOT_FOUND),
+
+    // product
+    PRODUCT_NOT_FOUND("PRODUCT_NOT_FOUND", "존재하지 않는 상품 ID 입니다.", HttpStatus.NOT_FOUND),
+    PRODUCT_FORBIDDEN("PRODUCT_FORBIDDEN", "해당 상품에 대한 접근 권한이 없습니다.", HttpStatus.FORBIDDEN)
 ;
     private final String code;
     private final String message;

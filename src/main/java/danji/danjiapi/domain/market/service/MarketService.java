@@ -35,7 +35,7 @@ public class MarketService {
 
     public List<ProductDetail> getProducts(Long marketId) {
         if (!marketRepository.existsById(marketId)) {
-            throw new CustomException(ErrorMessage.MARKET_INVALID_ID);
+            throw new CustomException(ErrorMessage.MARKET_NOT_FOUND);
         }
         List<Product> products = productRepository.findByMarketId(marketId);
 
