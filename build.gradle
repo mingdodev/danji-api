@@ -33,8 +33,10 @@ dependencies {
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.6'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.6'
 
-    implementation 'io.awspring.cloud:spring-cloud-starter-aws:2.4.4'
-    implementation 'software.amazon.ion:ion-java:1.8.0'
+    implementation('io.awspring.cloud:spring-cloud-starter-aws:2.4.4') {
+        exclude group: 'software.amazon.ion', module: 'ion-java'
+    }
+    implementation 'com.amazon.ion:ion-java:1.11.10'
 
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.9'
 
