@@ -40,7 +40,7 @@ public class Market {
     @Column(length = 30, nullable = false)
     private String address;
 
-    @Column(name = "image_url", nullable = false)
+    @Column(name = "image_url", length = 512)
     private String imageUrl;
 
     @CreatedDate

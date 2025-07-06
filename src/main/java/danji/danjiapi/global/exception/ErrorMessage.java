@@ -25,6 +25,7 @@ public enum ErrorMessage {
     //user
     USER_NOT_FOUND("USER_NOT_FOUND", "요청한 사용자를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
     USER_DUPLICATED_EMAIL("USER_DUPLICATED_EMAIL", "이미 존재하는 이메일입니다.", HttpStatus.CONFLICT),
+    USER_IMAGE_UPLOAD_FAILED("USER_IMAGE_UPLOAD_FAILED", "이미지 업로드에 실패하였습니다.", HttpStatus.SERVICE_UNAVAILABLE),
 
     // auth
     AUTH_INVALID("AUTH_INVALID", "잘못된 토큰입니다.", HttpStatus.BAD_REQUEST),
