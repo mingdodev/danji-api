@@ -29,7 +29,15 @@ public enum ErrorMessage {
     AUTH_INVALID("AUTH_INVALID", "잘못된 토큰입니다.", HttpStatus.BAD_REQUEST),
     AUTH_FORBIDDEN("AUTH_FORBIDDEN", "권한 정보가 없는 토큰입니다.", HttpStatus.FORBIDDEN),
     AUTH_USER_NOT_FOUND("AUTH_USER_NOT_FOUND", "해당 인증 정보의 회원을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
-    AUTH_INVALID_ROLE("AUTH_INVALID_ROLE", "일치하는 역할 정보가 없습니다.", HttpStatus.BAD_REQUEST);
+    AUTH_INVALID_ROLE("AUTH_INVALID_ROLE", "일치하는 역할 정보가 없습니다.", HttpStatus.BAD_REQUEST),
+
+    // market
+    MARKET_NOT_FOUND("MARKET_NOT_FOUND", "요청한 가게를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
+    MARKET_FORBIDDEN("MARKET_FORBIDDEN", "해당 가게에 대한 접근 권한이 없습니다.", HttpStatus.FORBIDDEN),
+
+    // product
+    PRODUCT_NOT_FOUND("PRODUCT_NOT_FOUND", "요청한 상품을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
+    PRODUCT_FORBIDDEN("PRODUCT_FORBIDDEN", "해당 상품에 대한 접근 권한이 없습니다.", HttpStatus.FORBIDDEN)
 ;
     private final String code;
     private final String message;
