@@ -7,6 +7,8 @@ services:
     ports:
       - "8080:8080"
     restart: unless-stopped
+    env_file:
+      - .env.api
 
   chat:
     image: mingdodev/danji-chat:latest
@@ -14,3 +16,5 @@ services:
     ports:
       - "3000:3000"
     restart: unless-stopped
+    env_file:
+      - .env.chat
