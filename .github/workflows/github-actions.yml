@@ -61,6 +61,6 @@ jobs:
 
             docker pull ${{ secrets.ECR_REGISTRY }}/danji-api:latest
 
-            docker-compose stop api
-            docker-compose rm -f api
-            docker-compose up -d api
+            docker compose stop api
+            docker compose rm -f api
+            docker compose up -d api
