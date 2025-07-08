@@ -3,6 +3,9 @@ package danji.danjiapi.domain.auth.service;
 import danji.danjiapi.domain.auth.dto.request.AuthLoginRequest;
 import danji.danjiapi.domain.auth.dto.response.AuthLoginResponse;
 import danji.danjiapi.domain.auth.dto.JwtToken;
+import danji.danjiapi.global.exception.CustomException;
+import danji.danjiapi.global.exception.ErrorMessage;
+import danji.danjiapi.global.security.CustomUserDetails;
 import danji.danjiapi.global.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,8 +28,12 @@ public class AuthService {
 
         JwtToken jwtToken = jwtTokenProvider.generateToken(authentication);
 
+        if (!(authentication.getPrincipal() instanceof CustomUserDetails principal)) {
+            throw new CustomException(ErrorMessage.AUTH_INVALID);
+        }
+
         return AuthLoginResponse.from(
-                authentication.getName(),
+                principal.getUserId(),
                 authentication.getAuthorities().stream().findFirst().map(GrantedAuthority::getAuthority).orElse(""),
                 jwtToken.accessToken(),
                 jwtToken.refreshToken()

@@ -4,14 +4,14 @@ import lombok.Builder;
 
 @Builder
 public record AuthLoginResponse(
-        String email,
+        Long userId,
         String role,
         String accessToken,
         String refreshToken
 ) {
-    public static AuthLoginResponse from(String email, String role, String accessToken, String refreshToken) {
+    public static AuthLoginResponse from(Long id, String role, String accessToken, String refreshToken) {
         return AuthLoginResponse.builder()
-                .email(email)
+                .userId(id)
                 .role(role)
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
