@@ -6,6 +6,7 @@ import danji.danjiapi.domain.user.dto.request.UserCreateCustomerRequest;
 import danji.danjiapi.domain.user.dto.request.UserCreateMerchantRequest;
 import danji.danjiapi.domain.user.dto.response.UserCreateMerchantResponse;
 import danji.danjiapi.domain.user.dto.response.UserCreateCustomerResponse;
+import danji.danjiapi.domain.user.dto.response.UserMerchantMarketResponse;
 import danji.danjiapi.domain.user.entity.User;
 import danji.danjiapi.domain.user.repository.UserRepository;
 import danji.danjiapi.global.exception.CustomException;
@@ -57,5 +58,12 @@ public class UserService {
         if (userRepository.existsByEmail(email)) {
             throw new CustomException(ErrorMessage.USER_DUPLICATED_EMAIL);
         }
+    }
+
+    public UserMerchantMarketResponse getMarket(Long userId) {
+        Market market = marketRepository.findByUserId(userId)
+                .orElseThrow(() -> new CustomException(ErrorMessage.MARKET_NOT_FOUND));
+
+        return UserMerchantMarketResponse.from(market.getName(), market.getId(), market.getAddress());
     }
 }
