@@ -51,6 +51,7 @@ public class UserController {
     @GetMapping("/merchant/{userId}/market")
     @Operation(summary = "사장님의 가게 정보 조회")
     public ApiResponse<UserMerchantMarketResponse> getMarket(@PathVariable Long userId) {
+        log.info("GET /api/merchant/{userId}/market");
         return ApiResponse.success(userService.getMarket(userId));
     }
 }

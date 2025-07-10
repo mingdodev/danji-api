@@ -8,11 +8,13 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
@@ -23,6 +25,7 @@ public class AuthController {
     @Operation(summary = "로그인", description = "이메일 아이디와 비밀번호로 로그인을 진행합니다. 로그인의 결과를 통해 회원의 역할을 구분합니다.",
             security = @SecurityRequirement(name = ""))
     public ApiResponse<AuthLoginResponse> login(@Valid @RequestBody AuthLoginRequest request) {
+        log.info("POST /api/auth/login");
         return ApiResponse.success(authService.login(request));
     }
 }
