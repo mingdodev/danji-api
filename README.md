@@ -46,4 +46,4 @@
 
 ### 데이터베이스 스키마
 
-![erd-MVP](https://github.com/user-attachments/assets/5b8dfa91-5c54-4056-a555-a8e3f177b152)
+![erd-MVP](https://github.com/user-attachments/assets/88701581-9691-4e9d-959c-6a37d545745f)
