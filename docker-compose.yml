@@ -2,19 +2,47 @@ version: "3.8"
 
 services:
   api:
-    image: mingdodev/danji-api:latest
+    image: ${AWS_ECR}/danji-api:latest
     container_name: danji-api
     ports:
       - "8080:8080"
     restart: unless-stopped
     env_file:
       - .env.api
+    depends_on:
+      - postgres
 
   chat:
-    image: mingdodev/danji-chat:latest
+    image: ${AWS_ECR}/danji-chat:latest
     container_name: danji-chat
     ports:
       - "3000:3000"
     restart: unless-stopped
     env_file:
       - .env.chat
+    depends_on:
+      - mongo
+
+  postgres:
+    image: postgres:15
+    container_name: danji-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_POSTGRES}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - ${POSTGRES_DATA}:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  mongo:
+    image: mongo:7
+    container_name: danji-mongo
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_DATABASE: ${DB_MONGO}
+    volumes:
+      - ${MONGO_DATA}:/data/db
+    ports:
+      - "27017:27017"
