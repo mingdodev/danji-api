@@ -36,8 +36,7 @@ public class MarketController {
             @PageableDefault(size = 10) Pageable pageable
     ) {
         log.info("GET /api/markets");
-        Slice<MarketDetail> result = marketService.searchMarkets(searchCondition, pageable);
-        return ApiResponse.success(PaginationResponse.from(result));
+        return ApiResponse.success(marketService.searchMarkets(searchCondition, pageable));
     }
 
     @GetMapping("/{marketId}/products")
