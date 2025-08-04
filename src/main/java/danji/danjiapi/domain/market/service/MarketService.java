@@ -9,10 +9,13 @@ import danji.danjiapi.domain.product.entity.Product;
 import danji.danjiapi.domain.product.repository.ProductRepository;
 import danji.danjiapi.global.exception.CustomException;
 import danji.danjiapi.global.exception.ErrorMessage;
+import danji.danjiapi.global.response.PaginationResponse;
 import danji.danjiapi.global.util.resolver.CurrentUserResolver;
 import danji.danjiapi.global.util.validator.AccessValidator;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,18 +25,16 @@ public class MarketService {
     private final ProductRepository productRepository;
     private final CurrentUserResolver currentUserResolver;
 
-    public List<MarketDetail> searchMarkets(MarketSearchCondition searchCondition) {
-        List<Market> markets;
+    public PaginationResponse<MarketDetail> searchMarkets(MarketSearchCondition searchCondition, Pageable pageable) {
+        Slice<Market> markets;
 
         if (searchCondition == null || searchCondition.keyword() == null || searchCondition.keyword().trim().isEmpty()) {
-            markets = marketRepository.findAll();
+            markets = marketRepository.findAll(pageable);
         } else {
-            markets = marketRepository.findByNameOrAddressOrProductsContaining(searchCondition.keyword().trim());
+            markets = marketRepository.findByNameOrAddressOrProductsContaining(searchCondition.keyword().trim(), pageable);
         }
 
-        return markets.stream()
-                .map(MarketDetail::from)
-                .toList();
+        return PaginationResponse.from(markets.map(MarketDetail::from));
     }
 
     public List<ProductDetail> getProducts(Long marketId) {
