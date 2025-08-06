@@ -11,6 +11,7 @@ services:
       - .env.api
     depends_on:
       - postgres
+      - valkey
 
   chat:
     image: ${AWS_ECR}/danji-chat:latest
@@ -22,6 +23,7 @@ services:
       - .env.chat
     depends_on:
       - mongo
+      - valkey
 
   postgres:
     image: postgres:15
@@ -46,3 +48,12 @@ services:
       - ${MONGO_DATA}:/data/db
     ports:
       - "27017:27017"
+
+  valkey:
+    image: valkey/valkey:8.1.3-alpine
+    container_name: danji-valkey
+    restart: unless-stopped
+    volumes:
+      - ${VALKEY_DATA}:/data/db
+    ports:
+      - "6379:6379"
