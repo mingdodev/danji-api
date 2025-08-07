@@ -25,6 +25,7 @@ public class RedisConfig {
     private int port;
 
     @Bean
+    @Qualifier("tokenRedisConnectionFactory")
     public LettuceConnectionFactory tokenRedisConnectionFactory() {
         RedisStandaloneConfiguration configuration = new RedisStandaloneConfiguration(host, port);
         configuration.setDatabase(0);
@@ -32,22 +33,25 @@ public class RedisConfig {
     }
 
     @Bean
+    @Qualifier("cacheRedisConnectionFactory")
     public LettuceConnectionFactory cacheRedisConnectionFactory() {
         RedisStandaloneConfiguration configuration = new RedisStandaloneConfiguration(host, port);
         configuration.setDatabase(1);
         return new LettuceConnectionFactory(configuration);
     }
 
-//    @Bean
-//    @Qualifier("tokenRedisTemplate")
-//    RedisTemplate<String, Object> tokenRedisTemplate() {
-//        return redisTemplateResolver(tokenRedisConnectionFactory());
-//    }
+    @Bean
+    @Qualifier("tokenRedisTemplate")
+    RedisTemplate<String, Object> tokenRedisTemplate(
+            @Qualifier("tokenRedisConnectionFactory") RedisConnectionFactory redisConnectionFactory) {
+        return redisTemplateResolver(redisConnectionFactory);
+    }
 
     @Bean
     @Qualifier("cacheRedisTemplate")
-    RedisTemplate<String, Object> cacheRedisTemplate() {
-        return redisTemplateResolver(cacheRedisConnectionFactory());
+    RedisTemplate<String, Object> cacheRedisTemplate(
+            @Qualifier("cacheRedisConnectionFactory") RedisConnectionFactory redisConnectionFactory) {
+        return redisTemplateResolver(redisConnectionFactory);
     }
 
     private RedisTemplate<String, Object> redisTemplateResolver(RedisConnectionFactory connectionFactory) {
