@@ -15,6 +15,7 @@ import danji.danjiapi.global.util.validator.AccessValidator;
 import java.time.Duration;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -22,11 +23,23 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
-@RequiredArgsConstructor
 public class MarketService {
     private final MarketRepository marketRepository;
     private final ProductRepository productRepository;
     private final CurrentUserResolver currentUserResolver;
+
+    public MarketService(
+            MarketRepository marketRepository,
+            ProductRepository productRepository,
+            CurrentUserResolver currentUserResolver,
+            @Qualifier("cacheRedisTemplate") RedisTemplate<String, Object> redisTemplate
+    ) {
+        this.marketRepository = marketRepository;
+        this.productRepository = productRepository;
+        this.currentUserResolver = currentUserResolver;
+        this.redisTemplate = redisTemplate;
+    }
+
     @Qualifier("cacheRedisTemplate")
     private final RedisTemplate<String, Object> redisTemplate;
 
