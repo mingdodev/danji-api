@@ -68,7 +68,7 @@ public class MarketService {
                 : "market:search:" + keyword;
         int start = (int) pageable.getOffset();
 
-        @SuppressWarnings("unchecked") // JSON 역직렬화를 위해 ObjectMapper에 객체 타입 정보 따로 저장하므로 unchecked warning 제거
+        @SuppressWarnings("unchecked") // 내부적으로 타입 정보 포함하는 Serializer 사용하므로 unchecked warning 제거
         List<MarketDetail> cachedMarkets = (List<MarketDetail>) redisTemplate.opsForValue().get(cacheKey);
 
         if (cachedMarkets != null) {
