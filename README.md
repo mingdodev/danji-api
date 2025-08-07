@@ -1,6 +1,6 @@
 # Danji API
 
-> 경희대학교 풀스택서비스프로그래밍 과목 중 수행하는 프로젝트를 위한 Repository입니다.
+> 단체 주문 지킴이 **단지**의 비즈니스 로직을 담당하는 API 서버 Repository입니다.
 
 <br>
 
@@ -8,6 +8,8 @@
 필요한 정보만 교환해 예약을 확정함으로써, 고객과 사장님 간 반복 소통과 착오를 줄이는 음식 단체 주문 서비스입니다.  
 
 [프로토타입 바로가기](https://www.figma.com/proto/hGn06ddfoamq17nGg1EcTN/danji?node-id=1-2&t=dpXDFk1PRrgYN6Ua-1)
+
+[시연 영상 바로가기](https://youtu.be/3lI_Xumikg8)
 
 <br>
 
