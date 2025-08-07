@@ -14,8 +14,6 @@ import danji.danjiapi.global.util.resolver.CurrentUserResolver;
 import danji.danjiapi.global.util.validator.AccessValidator;
 import java.time.Duration;
 import java.util.List;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
