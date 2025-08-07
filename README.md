@@ -40,7 +40,10 @@
 <br>
 
 ### 서버 아키텍처
-![system-architecture-MVP-aws](https://github.com/user-attachments/assets/9c5d8b6c-f896-4742-a1a4-247b74ef2ba8)
+
+[//]: # (![system-architecture-MVP-aws]&#40;https://github.com/user-attachments/assets/9c5d8b6c-f896-4742-a1a4-247b74ef2ba8&#41;)
+
+![system-architecture-caching](https://github.com/user-attachments/assets/370cbfc2-ba51-4e9e-85dd-a52b05de51fa)
 
 <br>
 
