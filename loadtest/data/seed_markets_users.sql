@@ -6,7 +6,7 @@ WITH new_users AS (
     SELECT
         LEFT('user' || gs, 10) AS name,
         ('u' || gs || '@email.com') AS email,
-        '1234',
+        '{noop}1234',
         'MERCHANT',
         NOW() - (random() * 365 || ' days')::interval
     FROM generate_series(1, 100) gs
@@ -20,4 +20,4 @@ SELECT
     NOW() - (random() * 365 || ' days')::interval
 FROM new_users;
 
-INSERT INTO users (name, email, password, role, created_at) values ('테스트유저', 'test@email.com', '1234', 'CUSTOMER', NOW());
+INSERT INTO users (name, email, password, role, created_at) values ('테스트유저', 'test@email.com', '{noop}1234', 'CUSTOMER', NOW());
