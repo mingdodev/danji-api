@@ -19,3 +19,5 @@ SELECT
     '서울특별시 서울로 ' || id || '번길',
     NOW() - (random() * 365 || ' days')::interval
 FROM new_users;
+
+INSERT INTO users (name, email, password, role, created_at) values ('테스트유저', 'test@email.com', '1234', 'CUSTOMER', NOW());
