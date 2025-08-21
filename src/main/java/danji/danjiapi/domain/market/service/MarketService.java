@@ -14,12 +14,14 @@ import danji.danjiapi.global.util.resolver.CurrentUserResolver;
 import danji.danjiapi.global.util.validator.AccessValidator;
 import java.time.Duration;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class MarketService {
     private final MarketRepository marketRepository;
@@ -88,6 +90,8 @@ public class MarketService {
 
         List<MarketDetail> cacheableMarkets = queriedMarkets.stream()
                 .map(MarketDetail::from).toList();
+
+        log.info("Setting cache for key: {}, with {} items.", cacheKey, cacheableMarkets.size());
         redisTemplate.opsForValue().set(cacheKey, cacheableMarkets, Duration.ofMinutes(10));
 
         int end = Math.min(start + pageable.getPageSize(), queriedMarkets.size());

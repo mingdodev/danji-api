@@ -9,7 +9,7 @@ WITH new_users AS (
         '{noop}1234',
         'MERCHANT',
         NOW() - (random() * 365 || ' days')::interval
-    FROM generate_series(1, 100) gs
+    FROM generate_series(1, 100000) gs
     RETURNING id
 )
 INSERT INTO markets (user_id, name, address, created_at)
@@ -20,4 +20,5 @@ SELECT
     NOW() - (random() * 365 || ' days')::interval
 FROM new_users;
 
-INSERT INTO users (name, email, password, role, created_at) values ('테스트유저', 'test@email.com', '{noop}1234', 'CUSTOMER', NOW());
+INSERT INTO users (name, email, password, role, created_at)
+VALUES ('테스트유저', 'test@email.com', '{noop}1234', 'CUSTOMER', NOW());

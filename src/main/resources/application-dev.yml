@@ -1,7 +1,4 @@
 spring:
-  config:
-    import: optional:file:.env[.properties]
-
   jpa:
     hibernate:
       ddl-auto: create
@@ -9,4 +6,4 @@ spring:
 
   data:
     redis:
-      host: localhost
+      host: valkey

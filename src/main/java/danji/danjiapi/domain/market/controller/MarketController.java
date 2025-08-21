@@ -11,7 +11,6 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -35,8 +34,9 @@ public class MarketController {
             @ModelAttribute MarketSearchCondition searchCondition,
             @PageableDefault(size = 10) Pageable pageable
     ) {
-        log.info("GET /api/markets");
-        return ApiResponse.success(marketService.searchMarkets(searchCondition, pageable));
+        log.info("GET /api/markets with cache");
+//        return ApiResponse.success(marketService.searchMarkets(searchCondition, pageable));
+        return ApiResponse.success(marketService.searchMarketsWithCache(searchCondition, pageable));
     }
 
     @GetMapping("/{marketId}/products")
