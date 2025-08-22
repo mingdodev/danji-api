@@ -27,6 +27,7 @@ public class MarketService {
     private final MarketRepository marketRepository;
     private final ProductRepository productRepository;
     private final CurrentUserResolver currentUserResolver;
+    private final RedisTemplate<String, Object> redisTemplate;
 
     public MarketService(
             MarketRepository marketRepository,
@@ -39,9 +40,6 @@ public class MarketService {
         this.currentUserResolver = currentUserResolver;
         this.redisTemplate = redisTemplate;
     }
-
-    @Qualifier("cacheRedisTemplate")
-    private final RedisTemplate<String, Object> redisTemplate;
 
     public PaginationResponse<MarketDetail> searchMarkets(MarketSearchCondition searchCondition, Pageable pageable) {
         Slice<Market> markets;
@@ -93,7 +91,7 @@ public class MarketService {
         List<MarketDetail> cacheableMarkets = queriedMarkets.stream()
                 .map(MarketDetail::from).toList();
 
-        log.info("Setting cache for key: {}, with {} items.", cacheKey, cacheableMarkets.size());
+        log.debug("Setting cache for key: {}, with {} items.", cacheKey, cacheableMarkets.size());
         redisTemplate.opsForValue().set(cacheKey, cacheableMarkets, Duration.ofMinutes(10));
 
         int end = Math.min(start + pageable.getPageSize(), queriedMarkets.size());
