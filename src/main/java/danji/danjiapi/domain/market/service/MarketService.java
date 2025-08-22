@@ -80,7 +80,9 @@ public class MarketService {
             return PaginationResponse.from(pagedList, end < cachedMarkets.size());
         }
 
-        List<Market> queriedMarkets = marketRepository.findByNameOrAddressOrProductsContaining(keyword);
+        List<Market> queriedMarkets = keyword.isBlank()
+                                    ? marketRepository.findAll()
+                                    : marketRepository.findByNameOrAddressOrProductsContaining(keyword);
 
         if (queriedMarkets.isEmpty()) {
             redisTemplate.opsForValue().set(cacheKey, List.of(), Duration.ofMinutes(5));
