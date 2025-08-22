@@ -5,7 +5,7 @@ WITH new_users AS (
     INSERT INTO users (name, email, password, role, created_at)
     SELECT
         LEFT('user' || gs, 10) AS name,
-        ('u' || gs || '@email.com') AS email,
+        ('u' || gs || '@example.com') AS email,
         '{noop}1234',
         'MERCHANT',
         NOW() - (random() * 365 || ' days')::interval
@@ -21,4 +21,4 @@ SELECT
 FROM new_users;
 
 INSERT INTO users (name, email, password, role, created_at)
-VALUES ('테스트유저', 'test@email.com', '{noop}1234', 'CUSTOMER', NOW());
+VALUES ('테스트유저', 'test@example.com', '{noop}1234', 'CUSTOMER', NOW());
