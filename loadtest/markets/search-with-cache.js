@@ -29,9 +29,13 @@ export function setup() {
             password: "1234"
         }), { headers: { 'Content-Type': 'application/json' } });
 
+    check(loginRes, { 'login status 200': (r) => r.status === 200 });
     const body = JSON.parse(loginRes.body);
-    const token = body.data.accessToken;
+    const token = body?.data?.accessToken;
 
+    if (!token) {
+        throw new Error('Failed to obtain access token from login response');
+    }
     return { token };
 }
 
