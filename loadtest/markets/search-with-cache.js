@@ -25,7 +25,7 @@ export const options = {
 export function setup() {
     const loginRes = http.post('http://localhost:8080/api/auth/login',
         JSON.stringify({
-            email: 'test@email.com',
+            email: 'test@example.com',
             password: "1234"
         }), { headers: { 'Content-Type': 'application/json' } });
 
