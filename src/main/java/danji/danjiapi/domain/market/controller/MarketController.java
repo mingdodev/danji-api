@@ -34,7 +34,7 @@ public class MarketController {
             @ModelAttribute MarketSearchCondition searchCondition,
             @PageableDefault(size = 10) Pageable pageable
     ) {
-        log.info("GET /api/markets with cache");
+        log.debug("GET /api/markets with cache");
 //        return ApiResponse.success(marketService.searchMarkets(searchCondition, pageable));
         return ApiResponse.success(marketService.searchMarketsWithCache(searchCondition, pageable));
     }
@@ -42,7 +42,7 @@ public class MarketController {
     @GetMapping("/{marketId}/products")
     @Operation(summary = "특정 가게의 상품 목록 조회", description = "사장님은 자기 가게의 모든 상품을, 고객은 선택한 특정 가게의 모든 상품을 조회할 수 있습니다.")
     public ApiResponse<List<ProductDetail>> getProducts(@PathVariable Long marketId) {
-        log.info("GET /api/markets/{marketId}/products");
+        log.debug("GET /api/markets/{marketId}/products");
         return ApiResponse.success(marketService.getProducts(marketId));
     }
 
