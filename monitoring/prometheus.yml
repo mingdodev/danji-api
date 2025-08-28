@@ -1,0 +1,8 @@
+global:
+  scrape_interval: 5s # 부하 테스트 전용
+
+scrape_configs:
+  - job_name: 'spring-application'
+    metrics_path: /actuator/prometheus
+    static_configs:
+      - targets: ['api:8080']
