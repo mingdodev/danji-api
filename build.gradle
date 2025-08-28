@@ -38,6 +38,9 @@ dependencies {
     }
     implementation 'com.amazon.ion:ion-java:1.11.10'
 
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'io.micrometer:micrometer-registry-prometheus'
+
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.9'
 
     compileOnly 'org.projectlombok:lombok'
