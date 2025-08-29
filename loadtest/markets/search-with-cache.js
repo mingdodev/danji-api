@@ -5,21 +5,25 @@ const BASE_URL = 'http://localhost:8080';
 const TEST_EMAIL = 'test@example.com';
 const TEST_PASSWORD = '1234';
 
+const API_PATHS = {
+    login: `${BASE_URL}/api/auth/login`,
+    getMarkets: `${BASE_URL}/api/markets?page=0&size=10`,
+};
+
 export const options = {
     vus: 100,
     duration: '1m',
 };
 
 export function setup() {
-    const url = '${BASE_URL}/api/auth/login';
     const requestBody = JSON.stringify({
         email: TEST_EMAIL,
         password: TEST_PASSWORD
     });
-    const requestHeader = {
+    const params = {
         headers: { 'Content-Type': 'application/json' }
     };
-    const loginResponse = http.post(url, requestBody, requestHeader);
+    const loginResponse = http.post(API_PATHS.login, requestBody, params);
 
     check(loginResponse, { 'login status 200': (r) => r.status === 200 });
     const responseBody = JSON.parse(loginResponse.body);
@@ -48,15 +52,14 @@ export function setup() {
  */
 
 export default function (data) {
-    const url = '${BASE_URL}/api/markets?page=0&size=10'
-    const requestHeader = {
+    const params = {
         headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${data.token}`,
         }
     }
 
-    const response = http.get(url, requestHeader);
+    const response = http.get(API_PATHS.getMarkets, params);
 
     check(response, {
         'status was 200': (r) => r.status === 200,
