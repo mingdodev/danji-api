@@ -54,7 +54,7 @@ services:
     container_name: danji-valkey
     restart: unless-stopped
     volumes:
-      - ${VALKEY_DATA}:/data/db
+      - ${VALKEY_DATA}:/data
     ports:
       - "6379:6379"
 

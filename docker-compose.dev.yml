@@ -57,7 +57,7 @@ services:
     platform: linux/amd64
     restart: unless-stopped
     volumes:
-      - ./data/docker/redis:/data/db
+      - ./data/docker/redis:/data
     ports:
       - "6379:6379"
 
