@@ -24,6 +24,11 @@ spring:
       - org.springframework.boot.autoconfigure.data.redis.RedisReactiveAutoConfiguration
       - org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "prometheus"
 
 springdoc:
   api-docs:
