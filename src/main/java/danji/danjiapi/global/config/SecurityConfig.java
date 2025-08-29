@@ -38,7 +38,8 @@ public class SecurityConfig {
                                 "/api/users/signup/merchant",
                                 "/api/v3/api-docs/**",
                                 "/api/swagger-ui/**",
-                                "/api/swagger-ui.html"
+                                "/api/swagger-ui.html",
+                                "/actuator/prometheus"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )

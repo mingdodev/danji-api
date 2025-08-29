@@ -27,13 +27,13 @@ public class MarketService {
     private final MarketRepository marketRepository;
     private final ProductRepository productRepository;
     private final CurrentUserResolver currentUserResolver;
-    private final RedisTemplate<String, Object> redisTemplate;
+    private final RedisTemplate<String, List<MarketDetail>> redisTemplate;
 
     public MarketService(
             MarketRepository marketRepository,
             ProductRepository productRepository,
             CurrentUserResolver currentUserResolver,
-            @Qualifier("cacheRedisTemplate") RedisTemplate<String, Object> redisTemplate
+            @Qualifier("cacheRedisTemplate") RedisTemplate<String, List<MarketDetail>> redisTemplate
     ) {
         this.marketRepository = marketRepository;
         this.productRepository = productRepository;
