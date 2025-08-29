@@ -1,10 +1,35 @@
 import http from 'k6/http';
 import { check } from 'k6';
 
+const BASE_URL = 'http://localhost:8080';
+const TEST_EMAIL = 'test@example.com';
+const TEST_PASSWORD = '1234';
+
 export const options = {
     vus: 100,
     duration: '1m',
 };
+
+export function setup() {
+    const url = '${BASE_URL}/api/auth/login';
+    const requestBody = JSON.stringify({
+        email: TEST_EMAIL,
+        password: TEST_PASSWORD
+    });
+    const requestHeader = {
+        headers: { 'Content-Type': 'application/json' }
+    };
+    const loginResponse = http.post(url, requestBody, requestHeader);
+
+    check(loginResponse, { 'login status 200': (r) => r.status === 200 });
+    const responseBody = JSON.parse(loginResponse.body);
+    const accessToken = responseBody?.data?.accessToken;
+
+    if (!accessToken) {
+        throw new Error('Failed to obtain access token from login response');
+    }
+    return { accessToken };
+}
 
 /**
  * [테스트 목적]
@@ -22,35 +47,18 @@ export const options = {
  * 3. 2를 수행한 후 10분 이내로 2를 다시 수행하여 성능을 측정한다. (cache warming)
  */
 
-export function setup() {
-    const loginRes = http.post('http://localhost:8080/api/auth/login',
-        JSON.stringify({
-            email: 'test@example.com',
-            password: "1234"
-        }), { headers: { 'Content-Type': 'application/json' } });
-
-    check(loginRes, { 'login status 200': (r) => r.status === 200 });
-    const body = JSON.parse(loginRes.body);
-    const token = body?.data?.accessToken;
-
-    if (!token) {
-        throw new Error('Failed to obtain access token from login response');
-    }
-    return { token };
-}
-
 export default function (data) {
-    const url = 'http://localhost:8080/api/markets?page=0&size=10'
-    const params = {
+    const url = '${BASE_URL}/api/markets?page=0&size=10'
+    const requestHeader = {
         headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${data.token}`,
         }
     }
 
-    const res = http.get(url, params);
+    const response = http.get(url, requestHeader);
 
-    check(res, {
+    check(response, {
         'status was 200': (r) => r.status === 200,
     });
 }
