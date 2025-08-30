@@ -5,7 +5,8 @@ services:
     platform: linux/amd64
     ports:
       - "8080:8080"
-    restart: unless-stopped
+    environment:
+      - JAVA_OPTS=-XX:NativeMemoryTracking=summary
     env_file:
       - .env.dev
     depends_on:
