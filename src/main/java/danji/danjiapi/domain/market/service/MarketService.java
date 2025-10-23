@@ -59,7 +59,7 @@ public class MarketService {
         - Cache Miss: DB로부터 결과 조회 후 캐시에 저장(TTL 10분)하고, 데이터를 슬라이싱해 페이지네이션 응답으로 반환한다.
                       만약 검색 결과가 없다면 null을 저장(TTL 5분)하고, 빈 리스트를 페이지네이션 응답에 넣어 반환한다.
     */
-    public PaginationResponse<MarketDetail> searchMarketsWithCache(MarketSearchCondition searchCondition, Pageable pageable) {
+    public PaginationResponse<MarketDetail> searchCachedMarkets(MarketSearchCondition searchCondition, Pageable pageable) {
         String keyword = (searchCondition == null || searchCondition.keyword() == null) ? "" : searchCondition.keyword().trim();
         String cacheKey = keyword.isEmpty()
                 ? "market:search:all"
@@ -82,6 +82,7 @@ public class MarketService {
                                     ? marketRepository.findAll()
                                     : marketRepository.findByNameOrAddressOrProductsContaining(keyword);
 
+        // 검색 결과가 없는 경우, ttl을 5분으로 짧게 설정
         if (queriedMarkets.isEmpty()) {
             redisTemplate.opsForValue().set(cacheKey, List.of(), Duration.ofMinutes(5));
 

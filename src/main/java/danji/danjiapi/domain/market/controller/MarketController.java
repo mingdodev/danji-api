@@ -34,10 +34,21 @@ public class MarketController {
             @ModelAttribute MarketSearchCondition searchCondition,
             @PageableDefault(size = 10) Pageable pageable
     ) {
-        log.debug("GET /api/markets with cache");
-//        return ApiResponse.success(marketService.searchMarkets(searchCondition, pageable));
-        return ApiResponse.success(marketService.searchMarketsWithCache(searchCondition, pageable));
+        return ApiResponse.success(marketService.searchMarkets(searchCondition, pageable));
     }
+
+    @GetMapping("/cached")
+    @Operation(
+            summary = "캐싱을 적용한 가게 목록 조회 및 검색 (테스트용)",
+            description = "고객이 모든 가게들의 목록을 페이지 단위로 조회하고, 키워드로 원하는 가게를 검색합니다."
+    )
+    public ApiResponse<PaginationResponse<MarketDetail>> getCachedMarkets(
+            @ModelAttribute MarketSearchCondition searchCondition,
+            @PageableDefault(size = 10) Pageable pageable
+    ) {
+        return ApiResponse.success(marketService.searchCachedMarkets(searchCondition, pageable));
+    }
+
 
     @GetMapping("/{marketId}/products")
     @Operation(summary = "특정 가게의 상품 목록 조회", description = "사장님은 자기 가게의 모든 상품을, 고객은 선택한 특정 가게의 모든 상품을 조회할 수 있습니다.")
