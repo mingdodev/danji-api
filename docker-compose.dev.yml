@@ -1,11 +1,13 @@
 services:
   api:
-    image: ${ECR_URL}/danji-api:latest
+    image: 966917020469.dkr.ecr.ap-northeast-2.amazonaws.com/danji-api:latest
     container_name: danji-api
     platform: linux/amd64
     ports:
       - "8080:8080"
-    restart: unless-stopped
+    entrypoint: sh -c "java $$JAVA_OPTS -jar /app.jar"
+    environment:
+      JAVA_OPTS: -XX:NativeMemoryTracking=summary
     env_file:
       - .env.dev
     depends_on:
@@ -13,7 +15,7 @@ services:
       - valkey
 
   chat:
-    image: ${ECR_URL}/danji-chat:latest
+    image: 966917020469.dkr.ecr.ap-northeast-2.amazonaws.com/danji-chat:latest
     container_name: danji-chat
     platform: linux/amd64
     ports:
