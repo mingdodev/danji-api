@@ -1,5 +1,6 @@
 package danji.danjiapi.domain.user.entity;
 
+import danji.danjiapi.domain.market.entity.Market;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -7,6 +8,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
@@ -14,6 +16,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 
 @Entity
@@ -45,6 +48,10 @@ public class User {
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
+    @Setter
+    @OneToOne(mappedBy = "user")
+    private Market market;
+
     public static User create(String email, String password, String name, String role) {
         return User.builder()
                 .email(email)
@@ -53,4 +60,5 @@ public class User {
                 .role(Role.from(role))
                 .build();
     }
+
 }

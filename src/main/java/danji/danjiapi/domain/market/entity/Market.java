@@ -56,12 +56,16 @@ public class Market {
     private List<Product> products = new ArrayList<>();
 
     public static Market create(String name, String address, String imageUrl, User user) {
-        return Market.builder()
+        Market market = Market.builder()
                 .name(name)
                 .address(address)
                 .imageUrl(imageUrl)
                 .user(user)
                 .build();
+
+        user.setMarket(market);
+
+        return market;
     }
 
     public void addProduct(Product product) {
