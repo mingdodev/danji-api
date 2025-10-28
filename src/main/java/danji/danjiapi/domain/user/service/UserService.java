@@ -26,13 +26,11 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final S3Uploader s3Uploader;
 
-    public UserCreateCustomerResponse signupCustomer(UserCreateCustomerRequest request) {
+    public User signupCustomer(UserCreateCustomerRequest request) {
         validateEmail(request.email());
         String encodedPassword = passwordEncoder.encode(request.password());
 
-        User user = userRepository.save(User.create(request.email(), encodedPassword, request.name(), "CUSTOMER"));
-
-        return UserCreateCustomerResponse.from(user.getId(), user.getName(), user.getRole().name());
+        return userRepository.save(User.create(request.email(), encodedPassword, request.name(), "CUSTOMER"));
     }
 
     @Transactional

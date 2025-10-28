@@ -1,5 +1,6 @@
 package danji.danjiapi.domain.user.dto.response;
 
+import danji.danjiapi.domain.user.entity.User;
 import lombok.Builder;
 
 @Builder
@@ -8,11 +9,11 @@ public record UserCreateCustomerResponse(
         String name,
         String role
 ) {
-    public static UserCreateCustomerResponse from(Long id, String name, String role) {
+    public static UserCreateCustomerResponse from(User user) {
         return UserCreateCustomerResponse.builder()
-                .id(id)
-                .name(name)
-                .role(role)
+                .id(user.getId())
+                .name(user.getName())
+                .role(user.getRole().name())
                 .build();
     }
 }
