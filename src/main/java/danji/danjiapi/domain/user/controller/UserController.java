@@ -46,8 +46,9 @@ public class UserController {
             security = @SecurityRequirement(name = ""))
     public ApiResponse<UserCreateMerchantResponse> signupMerchant(@Valid @RequestPart("request") UserCreateMerchantRequest request,
                                                                   @RequestPart(value = "image", required = false) MultipartFile image) {
-        log.info("POST /api/users/signup/merchant");
-        return ApiResponse.success(userService.signupMerchant(request, image));
+        User user = userService.signupMerchant(request, image);
+
+        return ApiResponse.success(UserCreateMerchantResponse.from(user));
     }
 
     @GetMapping("/merchant/{userId}/market")

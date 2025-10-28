@@ -34,7 +34,7 @@ public class UserService {
     }
 
     @Transactional
-    public UserCreateMerchantResponse signupMerchant(UserCreateMerchantRequest request, MultipartFile image) {
+    public User signupMerchant(UserCreateMerchantRequest request, MultipartFile image) {
         validateEmail(request.email());
         String encodedPassword = passwordEncoder.encode(request.password());
 
@@ -43,13 +43,13 @@ public class UserService {
                 : null;
 
         User user = userRepository.save(User.create(request.email(), encodedPassword, request.name(), "MERCHANT"));
-        Market market = marketRepository.save(Market.create(
+        marketRepository.save(Market.create(
                 request.marketName(),
                 request.marketAddress(),
                 imageUrl,
                 user));
 
-        return UserCreateMerchantResponse.from(user.getId(), user.getName(), user.getRole().name(), market.getId());
+        return user;
     }
 
     private void validateEmail(String email) {
