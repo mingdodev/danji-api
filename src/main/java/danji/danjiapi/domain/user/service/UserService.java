@@ -4,8 +4,6 @@ import danji.danjiapi.domain.market.entity.Market;
 import danji.danjiapi.domain.market.repository.MarketRepository;
 import danji.danjiapi.domain.user.dto.request.UserCreateCustomerRequest;
 import danji.danjiapi.domain.user.dto.request.UserCreateMerchantRequest;
-import danji.danjiapi.domain.user.dto.response.UserCreateMerchantResponse;
-import danji.danjiapi.domain.user.dto.response.UserCreateCustomerResponse;
 import danji.danjiapi.domain.user.dto.response.UserMerchantMarketResponse;
 import danji.danjiapi.domain.user.entity.User;
 import danji.danjiapi.domain.user.repository.UserRepository;

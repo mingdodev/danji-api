@@ -1,8 +1,8 @@
 package danji.danjiapi.global.exception;
 
 
-import danji.danjiapi.global.security.exception.CustomAuthException;
 import danji.danjiapi.global.response.ErrorResponse;
+import danji.danjiapi.global.security.exception.CustomAuthException;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

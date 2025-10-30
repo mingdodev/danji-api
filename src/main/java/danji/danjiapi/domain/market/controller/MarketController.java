@@ -2,8 +2,8 @@ package danji.danjiapi.domain.market.controller;
 
 import danji.danjiapi.domain.market.dto.request.MarketSearchCondition;
 import danji.danjiapi.domain.market.dto.response.MarketDetail;
-import danji.danjiapi.domain.market.service.MarketService;
 import danji.danjiapi.domain.market.dto.response.ProductDetail;
+import danji.danjiapi.domain.market.service.MarketService;
 import danji.danjiapi.global.response.ApiResponse;
 import danji.danjiapi.global.response.PaginationResponse;
 import io.swagger.v3.oas.annotations.Operation;
