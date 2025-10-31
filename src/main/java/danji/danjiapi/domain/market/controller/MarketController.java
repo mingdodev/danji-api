@@ -4,6 +4,7 @@ import danji.danjiapi.domain.market.dto.request.MarketSearchCondition;
 import danji.danjiapi.domain.market.dto.response.MarketDetail;
 import danji.danjiapi.domain.market.dto.response.ProductDetail;
 import danji.danjiapi.domain.market.service.MarketService;
+import danji.danjiapi.domain.product.entity.Product;
 import danji.danjiapi.global.response.ApiResponse;
 import danji.danjiapi.global.response.PaginationResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -53,8 +54,11 @@ public class MarketController {
     @GetMapping("/{marketId}/products")
     @Operation(summary = "특정 가게의 상품 목록 조회", description = "사장님은 자기 가게의 모든 상품을, 고객은 선택한 특정 가게의 모든 상품을 조회할 수 있습니다.")
     public ApiResponse<List<ProductDetail>> getProducts(@PathVariable Long marketId) {
-        log.debug("GET /api/markets/{marketId}/products");
-        return ApiResponse.success(marketService.getProducts(marketId));
+        List<Product> products = marketService.getProducts(marketId);
+        
+        return ApiResponse.success(products.stream()
+                .map(ProductDetail::from)
+                .toList());
     }
 
 }

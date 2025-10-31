@@ -3,7 +3,6 @@ package danji.danjiapi.domain.product.service;
 import danji.danjiapi.domain.market.entity.Market;
 import danji.danjiapi.domain.market.repository.MarketRepository;
 import danji.danjiapi.domain.product.dto.request.ProductCreateRequest;
-import danji.danjiapi.domain.product.dto.response.ProductCreateResponse;
 import danji.danjiapi.domain.product.entity.Product;
 import danji.danjiapi.domain.product.repository.ProductRepository;
 import danji.danjiapi.global.exception.CustomException;
@@ -20,15 +19,13 @@ public class ProductService {
     private final MarketRepository marketRepository;
     private final CurrentUserResolver currentUserResolver;
 
-    public ProductCreateResponse add(ProductCreateRequest request) {
+    public Product add(ProductCreateRequest request) {
         Long currentUserId = currentUserResolver.getCurrentUserId();
 
         Market market = marketRepository.findByUserId(currentUserId)
                 .orElseThrow(() -> new CustomException(ErrorMessage.MARKET_NOT_FOUND));
 
-        Product product = productRepository.save(Product.create(request.name(), request.price(), request.minQuantity(), request.maxQuantity(), market));
-
-        return ProductCreateResponse.from(product);
+        return productRepository.save(Product.create(request.name(), request.price(), request.minQuantity(), request.maxQuantity(), market));
     }
 
     public void delete(Long productId) {

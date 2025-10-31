@@ -2,7 +2,6 @@ package danji.danjiapi.domain.market.service;
 
 import danji.danjiapi.domain.market.dto.request.MarketSearchCondition;
 import danji.danjiapi.domain.market.dto.response.MarketDetail;
-import danji.danjiapi.domain.market.dto.response.ProductDetail;
 import danji.danjiapi.domain.market.entity.Market;
 import danji.danjiapi.domain.market.repository.MarketRepository;
 import danji.danjiapi.domain.product.entity.Product;
@@ -101,7 +100,7 @@ public class MarketService {
         return PaginationResponse.from(pagedList, end < cacheableMarkets.size());
     }
 
-    public List<ProductDetail> getProducts(Long marketId) {
+    public List<Product> getProducts(Long marketId) {
         Market market = marketRepository.findById(marketId)
                 .orElseThrow(() -> new CustomException(ErrorMessage.MARKET_NOT_FOUND));
 
@@ -112,10 +111,6 @@ public class MarketService {
             AccessValidator.validateMarketAccess(market, userId);
         }
 
-        List<Product> products = productRepository.findByMarketId(marketId);
-
-        return products.stream()
-                .map(ProductDetail::from)
-                .toList();
+        return productRepository.findByMarketId(marketId);
     }
 }

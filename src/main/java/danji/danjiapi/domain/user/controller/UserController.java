@@ -1,5 +1,6 @@
 package danji.danjiapi.domain.user.controller;
 
+import danji.danjiapi.domain.market.entity.Market;
 import danji.danjiapi.domain.user.dto.request.UserCreateCustomerRequest;
 import danji.danjiapi.domain.user.dto.request.UserCreateMerchantRequest;
 import danji.danjiapi.domain.user.dto.response.UserCreateCustomerResponse;
@@ -54,7 +55,7 @@ public class UserController {
     @GetMapping("/merchant/{userId}/market")
     @Operation(summary = "사장님의 가게 정보 조회")
     public ApiResponse<UserMerchantMarketResponse> getMarket(@PathVariable Long userId) {
-        log.info("GET /api/merchant/{userId}/market");
-        return ApiResponse.success(userService.getMarket(userId));
+        Market market = userService.getMarket(userId);
+        return ApiResponse.success(UserMerchantMarketResponse.from(market));
     }
 }
