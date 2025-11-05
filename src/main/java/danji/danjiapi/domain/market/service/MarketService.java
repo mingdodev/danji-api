@@ -40,7 +40,8 @@ public class MarketService {
         this.redisTemplate = redisTemplate;
     }
 
-    public PaginationResponse<MarketDetail> searchMarkets(MarketSearchCondition searchCondition, Pageable pageable) {
+    public Slice<Market> searchMarkets(MarketSearchCondition searchCondition, Pageable pageable) {
+
         Slice<Market> markets;
 
         if (searchCondition == null || searchCondition.keyword() == null || searchCondition.keyword().trim().isEmpty()) {
@@ -49,7 +50,7 @@ public class MarketService {
             markets = marketRepository.findByNameOrAddressOrProductsContaining(searchCondition.keyword().trim(), pageable);
         }
 
-        return PaginationResponse.from(markets.map(MarketDetail::from));
+        return markets;
     }
 
     /*  캐싱을 적용한 가게 목록 조회 메서드

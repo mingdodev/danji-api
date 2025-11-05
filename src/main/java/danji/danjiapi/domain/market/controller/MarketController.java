@@ -3,6 +3,7 @@ package danji.danjiapi.domain.market.controller;
 import danji.danjiapi.domain.market.dto.request.MarketSearchCondition;
 import danji.danjiapi.domain.market.dto.response.MarketDetail;
 import danji.danjiapi.domain.market.dto.response.ProductDetail;
+import danji.danjiapi.domain.market.entity.Market;
 import danji.danjiapi.domain.market.service.MarketService;
 import danji.danjiapi.domain.product.entity.Product;
 import danji.danjiapi.global.response.ApiResponse;
@@ -12,6 +13,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -35,9 +37,12 @@ public class MarketController {
             @ModelAttribute MarketSearchCondition searchCondition,
             @PageableDefault(size = 10) Pageable pageable
     ) {
-        return ApiResponse.success(marketService.searchMarkets(searchCondition, pageable));
+        Slice<Market> markets = marketService.searchMarkets(searchCondition, pageable);
+
+        return ApiResponse.success(PaginationResponse.from(markets.map(MarketDetail::from)));
     }
 
+    // TO DO: DTO에 대해 고민
     @GetMapping("/cached")
     @Operation(
             summary = "캐싱을 적용한 가게 목록 조회 및 검색 (테스트용)",
