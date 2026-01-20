@@ -40,11 +40,13 @@ public class UserService {
                 : null;
 
         User user = userRepository.save(User.create(request.email(), encodedPassword, request.name(), "MERCHANT"));
-        marketRepository.save(Market.create(
+        Market market = marketRepository.save(Market.create(
                 request.marketName(),
                 request.marketAddress(),
                 imageUrl,
                 user));
+
+        user.setMarket(market);
 
         return user;
     }
