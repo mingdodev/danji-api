@@ -4,9 +4,6 @@ import danji.danjiapi.domain.market.entity.Market;
 import danji.danjiapi.domain.market.repository.MarketRepository;
 import danji.danjiapi.domain.user.dto.request.UserCreateCustomerRequest;
 import danji.danjiapi.domain.user.dto.request.UserCreateMerchantRequest;
-import danji.danjiapi.domain.user.dto.response.UserCreateMerchantResponse;
-import danji.danjiapi.domain.user.dto.response.UserCreateCustomerResponse;
-import danji.danjiapi.domain.user.dto.response.UserMerchantMarketResponse;
 import danji.danjiapi.domain.user.entity.User;
 import danji.danjiapi.domain.user.repository.UserRepository;
 import danji.danjiapi.global.exception.CustomException;
@@ -26,17 +23,15 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final S3Uploader s3Uploader;
 
-    public UserCreateCustomerResponse signupCustomer(UserCreateCustomerRequest request) {
+    public User signupCustomer(UserCreateCustomerRequest request) {
         validateEmail(request.email());
         String encodedPassword = passwordEncoder.encode(request.password());
 
-        User user = userRepository.save(User.create(request.email(), encodedPassword, request.name(), "CUSTOMER"));
-
-        return UserCreateCustomerResponse.from(user.getId(), user.getName(), user.getRole().name());
+        return userRepository.save(User.create(request.email(), encodedPassword, request.name(), "CUSTOMER"));
     }
 
     @Transactional
-    public UserCreateMerchantResponse signupMerchant(UserCreateMerchantRequest request, MultipartFile image) {
+    public User signupMerchant(UserCreateMerchantRequest request, MultipartFile image) {
         validateEmail(request.email());
         String encodedPassword = passwordEncoder.encode(request.password());
 
@@ -51,7 +46,9 @@ public class UserService {
                 imageUrl,
                 user));
 
-        return UserCreateMerchantResponse.from(user.getId(), user.getName(), user.getRole().name(), market.getId());
+        user.setMarket(market);
+
+        return user;
     }
 
     private void validateEmail(String email) {
@@ -60,10 +57,8 @@ public class UserService {
         }
     }
 
-    public UserMerchantMarketResponse getMarket(Long userId) {
-        Market market = marketRepository.findByUserId(userId)
+    public Market getMarket(Long userId) {
+        return marketRepository.findByUserId(userId)
                 .orElseThrow(() -> new CustomException(ErrorMessage.MARKET_NOT_FOUND));
-
-        return UserMerchantMarketResponse.from(market.getName(), market.getId(), market.getAddress());
     }
 }

@@ -2,9 +2,9 @@ package danji.danjiapi.domain.auth.service;
 
 import danji.danjiapi.domain.user.entity.User;
 import danji.danjiapi.domain.user.repository.UserRepository;
-import danji.danjiapi.global.security.exception.CustomAuthException;
-import danji.danjiapi.global.security.CustomUserDetails;
 import danji.danjiapi.global.exception.ErrorMessage;
+import danji.danjiapi.global.security.CustomUserDetails;
+import danji.danjiapi.global.security.exception.CustomAuthException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;

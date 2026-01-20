@@ -12,12 +12,12 @@ public class ArchitectureTest {
         Architectures.layeredArchitecture()
                 .consideringAllDependencies()
                 .layer("presentation").definedBy("..controller..", "..dto..")
-                .layer("application").definedBy("..service..", "..entity..")
-                .layer("persistence").definedBy("..repository..")
+                .layer("application").definedBy("..service..")
+                .layer("domain").definedBy("..entity..", "..repository..")
 
                 .whereLayer("presentation").mayNotBeAccessedByAnyLayer()
                 .whereLayer("application").mayOnlyBeAccessedByLayers("presentation")
-                .whereLayer("persistence").mayOnlyBeAccessedByLayers("application")
+                .whereLayer("domain").mayOnlyBeAccessedByLayers("application", "presentation")
 
                 .check(classes);
     }

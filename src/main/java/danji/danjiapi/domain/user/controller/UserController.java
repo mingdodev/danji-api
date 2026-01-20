@@ -1,10 +1,12 @@
 package danji.danjiapi.domain.user.controller;
 
+import danji.danjiapi.domain.market.entity.Market;
 import danji.danjiapi.domain.user.dto.request.UserCreateCustomerRequest;
 import danji.danjiapi.domain.user.dto.request.UserCreateMerchantRequest;
-import danji.danjiapi.domain.user.dto.response.UserCreateMerchantResponse;
 import danji.danjiapi.domain.user.dto.response.UserCreateCustomerResponse;
+import danji.danjiapi.domain.user.dto.response.UserCreateMerchantResponse;
 import danji.danjiapi.domain.user.dto.response.UserMerchantMarketResponse;
+import danji.danjiapi.domain.user.entity.User;
 import danji.danjiapi.domain.user.service.UserService;
 import danji.danjiapi.global.annotation.MultipartJsonRequest;
 import danji.danjiapi.global.response.ApiResponse;
@@ -34,8 +36,9 @@ public class UserController {
     @Operation(summary = "일반 회원 가입", description = "일반 회원의 회원 가입을 진행합니다.",
             security = @SecurityRequirement(name = ""))
     public ApiResponse<UserCreateCustomerResponse> signupCustomer(@Valid @RequestBody UserCreateCustomerRequest request) {
-        log.info("POST /api/users/signup/customer");
-        return ApiResponse.success(userService.signupCustomer(request));
+        User user = userService.signupCustomer(request);
+
+        return ApiResponse.success(UserCreateCustomerResponse.from(user));
     }
 
     @PostMapping(value = "/signup/merchant", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -44,14 +47,15 @@ public class UserController {
             security = @SecurityRequirement(name = ""))
     public ApiResponse<UserCreateMerchantResponse> signupMerchant(@Valid @RequestPart("request") UserCreateMerchantRequest request,
                                                                   @RequestPart(value = "image", required = false) MultipartFile image) {
-        log.info("POST /api/users/signup/merchant");
-        return ApiResponse.success(userService.signupMerchant(request, image));
+        User user = userService.signupMerchant(request, image);
+
+        return ApiResponse.success(UserCreateMerchantResponse.from(user));
     }
 
     @GetMapping("/merchant/{userId}/market")
     @Operation(summary = "사장님의 가게 정보 조회")
     public ApiResponse<UserMerchantMarketResponse> getMarket(@PathVariable Long userId) {
-        log.info("GET /api/merchant/{userId}/market");
-        return ApiResponse.success(userService.getMarket(userId));
+        Market market = userService.getMarket(userId);
+        return ApiResponse.success(UserMerchantMarketResponse.from(market));
     }
 }

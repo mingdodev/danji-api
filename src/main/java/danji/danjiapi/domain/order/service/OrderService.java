@@ -1,16 +1,14 @@
 package danji.danjiapi.domain.order.service;
 
-import danji.danjiapi.domain.order.dto.request.OrderItemDetail;
-import danji.danjiapi.domain.order.dto.request.OrderItemInfo;
 import danji.danjiapi.domain.market.entity.Market;
 import danji.danjiapi.domain.market.repository.MarketRepository;
 import danji.danjiapi.domain.order.dto.request.OrderCreateRequest;
+import danji.danjiapi.domain.order.dto.request.OrderItemDetail;
+import danji.danjiapi.domain.order.dto.request.OrderItemInfo;
 import danji.danjiapi.domain.order.dto.request.OrderStatusUpdateRequest;
 import danji.danjiapi.domain.order.dto.request.OrderUpdateRequest;
 import danji.danjiapi.domain.order.dto.response.CustomerOrderDetail;
 import danji.danjiapi.domain.order.dto.response.MerchantOrderDetail;
-import danji.danjiapi.domain.order.dto.response.OrderCreateResponse;
-import danji.danjiapi.domain.order.dto.response.OrderStatusUpdateResponse;
 import danji.danjiapi.domain.order.entity.Order;
 import danji.danjiapi.domain.order.entity.OrderItem;
 import danji.danjiapi.domain.order.entity.OrderStatus;
@@ -94,7 +92,7 @@ public class OrderService {
     }
 
     @Transactional
-    public OrderCreateResponse create(OrderCreateRequest request) {
+    public Order create(OrderCreateRequest request) {
         Long currentUserId = currentUserResolver.getCurrentUserId();
         User customer = userRepository.findById(currentUserId)
                 .orElseThrow(() -> new CustomException(ErrorMessage.USER_NOT_FOUND));
@@ -111,7 +109,7 @@ public class OrderService {
             order.addOrderItem(item);
         }
 
-        return OrderCreateResponse.from(orderRepository.save(order));
+        return orderRepository.save(order);
     }
 
     @Transactional
@@ -142,7 +140,7 @@ public class OrderService {
     }
 
     @Transactional
-    public OrderStatusUpdateResponse updateStatus(Long orderId, OrderStatusUpdateRequest request) {
+    public Order updateStatus(Long orderId, OrderStatusUpdateRequest request) {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new CustomException(ErrorMessage.ORDER_NOT_FOUND));
 
@@ -154,6 +152,7 @@ public class OrderService {
         }
 
         order.updateStatus(OrderStatus.from(request.status()));
-        return OrderStatusUpdateResponse.from(order);
+
+        return order;
     }
 }
