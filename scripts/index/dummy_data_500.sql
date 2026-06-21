@@ -1,6 +1,6 @@
 -- 가게 목록 조회 성능 측정용 더미 데이터 삽입 스크립트
 -- 실행 전 스키마 확인: \dt
--- 실행: psql -d <DB명> -U <유저명> -f scripts/dummy_data.sql
+-- 실행: psql -d <DB명> -U <유저명> -f scripts/dummy_data_500.sql
 
 DO $$
 DECLARE

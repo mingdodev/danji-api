@@ -1,6 +1,6 @@
 -- GIN 인덱스 임계점 확인용 대용량 더미 데이터 삽입 스크립트
 -- 기존 500개에 추가로 단계별 삽입 (총 누적 규모로 측정)
--- 실행: psql -d <DB명> -U <유저명> -f scripts/dummy_data_large.sql
+-- 실행: psql -d <DB명> -U <유저명> -f scripts/dummy_data_10000.sql
 --
 -- 측정 순서:
 --   1. 이 스크립트 실행 후 EXPLAIN ANALYZE로 플랜 확인
