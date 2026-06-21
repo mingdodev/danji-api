@@ -18,12 +18,14 @@ public interface MarketRepository extends JpaRepository<Market, Long> {
     List<Market> findAllByUserIdIn(@Param("userIds") Set<Long> userIds);
 
     @Query("""
-        SELECT DISTINCT m FROM Market m
-        LEFT JOIN m.products p
-        WHERE
-            (m.name LIKE %:keyword%
-            OR m.address LIKE %:keyword%
-            OR p.name LIKE %:keyword%)
+        SELECT m FROM Market m
+        WHERE m.name LIKE %:keyword%
+           OR m.address LIKE %:keyword%
+           OR EXISTS (
+               SELECT 1 FROM Product p
+               WHERE p.market = m
+               AND p.name LIKE %:keyword%
+           )
     """)
     Slice<Market> findByNameOrAddressOrProductsContaining(@Param("keyword") String keyword, Pageable pageable);
 
