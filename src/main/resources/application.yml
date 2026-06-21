@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: dev
+    active: local
 
   datasource:
     driver-class-name: org.postgresql.Driver
@@ -21,14 +21,6 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
-  data:
-    redis:
-      port: 6379
-
-  autoconfigure:
-    exclude:
-      - org.springframework.boot.autoconfigure.data.redis.RedisReactiveAutoConfiguration
-      - org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration
 
 management:
   endpoints:
